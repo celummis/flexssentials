@@ -1,119 +1,71 @@
 @import 'variables';
 @import 'functions';
 
-// Flexbox container
+// Flexbox Utilities
 @mixin apply-flexbox($direction: null, $justify: null, $items: null, $content: null, $wrap: null) {
   display: flex;
-  
-  @if $direction != null {
-    flex-direction: $direction;
-  }
-  
-  @if $justify != null {
-    justify-content: $justify;
-  }
-  
-  @if $items != null {
-    align-items: $items;
-  }
-
-  @if $content != null {
-    align-content: $content;
-  }
-  
-  @if $wrap != null {
-    flex-wrap: $wrap;
-  }
+  @if $direction != null { flex-direction: $direction; }
+  @if $justify != null { justify-content: $justify; }
+  @if $items != null { align-items: $items; }
+  @if $content != null { align-content: $content; }
+  @if $wrap != null { flex-wrap: $wrap; }
 }
 
-// Flexbox items
-@mixin apply-flex-item($grow: null, $shrink: null, $basis: null, $align-self: null, $order: null) {
-  @if $grow != null {
-    flex-grow: $grow;
-  }
-  
-  @if $shrink != null {
-    flex-shrink: $shrink;
-  }
-  
-  @if $basis != null {
-    flex-basis: $basis;
-  }
-
-  @if $align-self != null {
-    align-self: $align-self;
-  }
-  
-  @if $order != null {
-    order: $order;
-  }
+@mixin apply-flex-center {
+  @include apply-flexbox($justify: center, $items: center);
 }
 
-// Typography mixin
-@mixin apply-typography($size: null, $weight: null, $style: null, $underline: false, $capitalize: false, $uppercase: false, $lowercase: false) {
+// Typography Utilities
+@mixin apply-typography($size: null, $weight: null, $style: null, $transform: null, $line-height: null) {
   @if $size != null {
-    @if map-has-key($font-sizes, $size) {
-      font-size: map-get($font-sizes, $size);
-    } @else {
-      @warn "Invalid font-size key: #{$size}";
-    }
+    font-size: map-get($font-sizes, $size, null);
   }
-
-  @if $weight != null {
-    font-weight: $weight;
-  }
-
-  @if $style != null {
-    font-style: $style;
-  }
-
-  @if $underline {
-    text-decoration: underline;
-  }
-
-  @if $capitalize {
-    text-transform: capitalize;
-  }
-
-  @if $uppercase {
-    text-transform: uppercase;
-  }
-
-  @if $lowercase {
-    text-transform: lowercase;
-  }
+  @if $weight != null { font-weight: $weight; }
+  @if $style != null { font-style: $style; }
+  @if $transform != null { text-transform: $transform; }
+  @if $line-height != null { line-height: $line-height; }
 }
 
-// Spacing mixin for margin and padding
+// Spacing Utilities
 @mixin apply-spacing($type: margin, $all: null, $vertical: null, $horizontal: null, $top: null, $right: null, $bottom: null, $left: null) {
   @if $all != null {
     #{$type}: spacing($all);
-  } @else {
+  } else {
     @if $vertical != null {
       #{$type}-top: spacing($vertical);
       #{$type}-bottom: spacing($vertical);
-    } @else if $top != null or $bottom != null {
-      @if $top != null { #{$type}-top: spacing($top); }
-      @if $bottom != null { #{$type}-bottom: spacing($bottom); }
     }
-
     @if $horizontal != null {
       #{$type}-left: spacing($horizontal);
       #{$type}-right: spacing($horizontal);
-    } @else if $left != null or $right != null {
-      @if $left != null { #{$type}-left: spacing($left); }
-      @if $right != null { #{$type}-right: spacing($right); }
     }
+    @if $top != null { #{$type}-top: spacing($top); }
+    @if $bottom != null { #{$type}-bottom: spacing($bottom); }
+    @if $left != null { #{$type}-left: spacing($left); }
+    @if $right != null { #{$type}-right: spacing($right); }
   }
 }
 
-// Responsive mixin
+// Responsive Utilities
 @mixin apply-responsive($breakpoint) {
   @if map-has-key($breakpoints, $breakpoint) {
     @media #{map-get($breakpoints, $breakpoint)} {
       @content;
     }
   } @else {
-    @warn "Invalid breakpoint: `#{$breakpoint}`. Please use a valid breakpoint.";
+    @warn "Invalid breakpoint: #{$breakpoint}";
+  }
+}
+
+@mixin hide-on($breakpoint) {
+  @include apply-responsive($breakpoint) {
+    display: none;
+  }
+}
+
+@mixin show-only-on($breakpoint) {
+  display: none;
+  @include apply-responsive($breakpoint) {
+    display: block;
   }
 }
