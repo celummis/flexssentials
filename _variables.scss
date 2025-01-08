@@ -1,4 +1,4 @@
-// Grid column size map
+// Grid Column Sizes
 $column-sizes: (
   columns-12: calc(100% * 12 / 12),
   columns-11: calc(100% * 11 / 12),
@@ -14,41 +14,29 @@ $column-sizes: (
   columns-1: calc(100% * 1 / 12)
 );
 
-// Utility size map
+// Utility Sizes
 $utility-sizes: (
-  container-100: 100%,
-  container-95: 95%,
-  container-90: 90%,
-  container-85: 85%,
-  container-80: 80%,
-  container-75: 75%,
-  container-70: 70%,
-  container-65: 65%,
-  container-60: 60%,
-  container-55: 55%,
-  container-50: 50%,
-  container-45: 45%,
-  container-40: 40%,
-  container-35: 35%,
-  container-30: 30%,
-  container-25: 25%,
-  container-20: 20%,
-  container-15: 15%,
-  container-10: 10%
+  container-full: 100%,
+  container-xxl: 90%,
+  container-xl: 80%,
+  container-lg: 70%,
+  container-md: 60%,
+  container-sm: 50%
 );
 
-// Color map for theme
+// Theme Colors
 $theme-colors: (
   primary: #55B785,
   secondary: #808181,
   success: #30DF3E,
-  alert: #DF3030,
+  danger: #DF3030,
   warning: #FB8609,
-  black: #000000,
-  white: #FFFFFF
+  info: #0099FF,
+  light: #F8F9FA,
+  dark: #343A40
 );
 
-// Typography size map
+// Typography Sizes
 $font-sizes: (
   body: 1rem,
   h1: 3rem,
@@ -59,7 +47,14 @@ $font-sizes: (
   h6: 1.25rem
 );
 
-// Spacing size map
+// Line Heights
+$line-heights: (
+  normal: 1.5,
+  small: 1.25,
+  large: 2
+);
+
+// Spacing Sizes
 $spacing-sizes: (
   none: 0,
   xs: 0.25rem,
@@ -70,10 +65,12 @@ $spacing-sizes: (
   xxl: 3rem
 );
 
-// Breakpoint size map
+// Breakpoints
 $breakpoints: (
-  'sm': 'screen and (min-width: 576px)',
-  'md': 'screen and (min-width: 768px)',
-  'lg': 'screen and (min-width: 992px)',
-  'xl': 'screen and (min-width: 1200px)'
+  xs: 'screen and (max-width: 575px)',
+  sm: 'screen and (min-width: 576px)',
+  md: 'screen and (min-width: 768px)',
+  lg: 'screen and (min-width: 992px)',
+  xl: 'screen and (min-width: 1200px)',
+  xxl: 'screen and (min-width: 1400px)'
 );
