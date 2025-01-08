@@ -1,69 +1,60 @@
 @import 'variables';
 
-// Grid column function
+// Grid Column Function
 @function columns($size) {
   @if map-has-key($column-sizes, $size) {
     @return map-get($column-sizes, $size);
   } @else {
-    @warn "Invalid grid size: `#{$size}`. Please use a valid size.";
+    @warn "Invalid grid size: #{$size}";
     @return null;
   }
 }
 
-// Utility size function
+// Utility Size Function
 @function container($size) {
   @if map-has-key($utility-sizes, $size) {
     @return map-get($utility-sizes, $size);
   } @else {
-    @warn "Invalid utility size: `#{$size}`. Please use a valid size.";
+    @warn "Invalid utility size: #{$size}";
     @return null;
   }
 }
 
-// Color function to lighten or darken a color (allows theme colors to be the only colors needed)
+// Color Adjustment Function
 @function apply-color($color-name, $percentage: null) {
-  // Retrieve color from theme colors or use the provided color value
-  $color: if(map-has-key($theme-colors, $color-name), map-get($theme-colors, $color-name), $color-name);
-
-  // Validate the input color
+  $color: map-get($theme-colors, $color-name, $color-name);
   @if type-of($color) != 'color' {
-    @warn "Invalid color or color name: #{$color}";
+    @warn "Invalid color: #{$color}";
     @return null;
   }
 
-  // If no percentage is provided, return the original color
   @if $percentage == null or $percentage == 0% {
     @return $color;
   }
 
-  // Validate the percentage
-  @if type-of($percentage) != 'number' or not unit($percentage) == '%' {
-    @warn "Percentage should be a number with a '%' unit, but was #{$percentage}";
-    @return null;
-  }
-
-  // Check if the percentage is within the valid range
-  @if $percentage < -100% or $percentage > 100% {
-    @warn "Percentage must be between -100% and 100%, but was #{$percentage}";
-    @return null;
-  }
-
-  // Adjust color
   @if $percentage > 0% {
     @return lighten($color, $percentage);
-  } @else if $percentage < 0% {
+  } @else {
     @return darken($color, abs($percentage));
   }
-
-  @return $color;
 }
 
-// Spacing function
+// Spacing Function
 @function spacing($size) {
   @if map-has-key($spacing-sizes, $size) {
     @return map-get($spacing-sizes, $size);
   } @else {
-    @warn "Invalid spacing size: `#{$size}`. Please use a valid size.";
+    @warn "Invalid spacing size: #{$size}";
+    @return null;
+  }
+}
+
+// Line Height Function
+@function line-height($size) {
+  @if map-has-key($line-heights, $size) {
+    @return map-get($line-heights, $size);
+  } @else {
+    @warn "Invalid line-height size: #{$size}";
     @return null;
   }
 }
