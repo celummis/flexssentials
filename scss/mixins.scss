@@ -1,5 +1,5 @@
-@import 'variables';
-@import 'functions';
+@use 'variables';
+@use 'functions';
 
 // Flexbox Utilities
 @mixin apply-flexbox($direction: null, $justify: null, $items: null, $content: null, $wrap: null) {
@@ -9,10 +9,6 @@
   @if $items != null { align-items: $items; }
   @if $content != null { align-content: $content; }
   @if $wrap != null { flex-wrap: $wrap; }
-}
-
-@mixin apply-flex-center {
-  @include apply-flexbox($justify: center, $items: center);
 }
 
 // Typography Utilities
