@@ -67,11 +67,11 @@
 }
 
 // Generate Utility Sizes Function
-@function generate-spacing-sizes($base, $scale, $steps) {
+@function generate-utility-sizes($base, $scale, $steps) {
   $sizes: (none: 0);
   @for $i from 1 through $steps {
     $size: $base * $i; // Linear increment
-    $sizes: map-merge($sizes, (spacing-#{$i}: $size));
+    $sizes: map-merge($sizes, (size-#{$i}: $size));
   }
   @return $sizes;
 }
@@ -91,7 +91,7 @@
   $sizes: (none: 0);
   @for $i from 1 through $steps {
     $size: $base * math.pow($scale, $i - 1);
-    $sizes: map-merge($sizes, (step-#{$i}: $size));
+    $sizes: map-merge($sizes, (spacing-#{$i}: $size));
   }
   @return $sizes;
 }
