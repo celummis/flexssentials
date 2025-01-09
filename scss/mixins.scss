@@ -1,67 +1,31 @@
 @use 'variables';
 @use 'functions';
 
-// Flexbox Utilities
-@mixin apply-flexbox($direction: null, $justify: null, $items: null, $content: null, $wrap: null) {
+// Flexbox
+@mixin flexbox($direction: row, $justify: flex-start, $items: stretch, $content: normal, $wrap: nowrap, $gap: null) {
   display: flex;
-  @if $direction != null { flex-direction: $direction; }
-  @if $justify != null { justify-content: $justify; }
-  @if $items != null { align-items: $items; }
-  @if $content != null { align-content: $content; }
-  @if $wrap != null { flex-wrap: $wrap; }
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $items;
+  align-content: $content;
+  flex-wrap: $wrap;
+  @if $gap != null { gap: $gap; }
 }
 
-// Typography Utilities
-@mixin apply-typography($size: null, $weight: null, $style: null, $transform: null, $line-height: null) {
-  @if $size != null {
-    font-size: map-get($font-sizes, $size, null);
-  }
-  @if $weight != null { font-weight: $weight; }
-  @if $style != null { font-style: $style; }
-  @if $transform != null { text-transform: $transform; }
-  @if $line-height != null { line-height: $line-height; }
+// Typography styles
+@mixin font-styles($weight: normal, $style: normal, $transform: none) {
+  font-weight: $weight;
+  font-style: $style;
+  text-transform: $transform;
 }
 
-// Spacing Utilities
-@mixin apply-spacing($type: margin, $all: null, $vertical: null, $horizontal: null, $top: null, $right: null, $bottom: null, $left: null) {
-  @if $all != null {
-    #{$type}: spacing($all);
-  } else {
-    @if $vertical != null {
-      #{$type}-top: spacing($vertical);
-      #{$type}-bottom: spacing($vertical);
-    }
-    @if $horizontal != null {
-      #{$type}-left: spacing($horizontal);
-      #{$type}-right: spacing($horizontal);
-    }
-    @if $top != null { #{$type}-top: spacing($top); }
-    @if $bottom != null { #{$type}-bottom: spacing($bottom); }
-    @if $left != null { #{$type}-left: spacing($left); }
-    @if $right != null { #{$type}-right: spacing($right); }
-  }
-}
-
-// Responsive Utilities
-@mixin apply-responsive($breakpoint) {
+// Responsive breakpoints
+@mixin responsive($breakpoint) {
   @if map-has-key($breakpoints, $breakpoint) {
     @media #{map-get($breakpoints, $breakpoint)} {
       @content;
     }
   } @else {
     @warn "Invalid breakpoint: #{$breakpoint}";
-  }
-}
-
-@mixin hide-on($breakpoint) {
-  @include apply-responsive($breakpoint) {
-    display: none;
-  }
-}
-
-@mixin show-only-on($breakpoint) {
-  display: none;
-  @include apply-responsive($breakpoint) {
-    display: block;
   }
 }

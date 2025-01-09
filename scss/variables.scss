@@ -1,49 +1,43 @@
-// Grid Column Sizes
-$column-sizes: (
-  columns-12: calc(100% * 12 / 12),
-  columns-11: calc(100% * 11 / 12),
-  columns-10: calc(100% * 10 / 12),
-  columns-9: calc(100% * 9 / 12),
-  columns-8: calc(100% * 8 / 12),
-  columns-7: calc(100% * 7 / 12),
-  columns-6: calc(100% * 6 / 12),
-  columns-5: calc(100% * 5 / 12),
-  columns-4: calc(100% * 4 / 12),
-  columns-3: calc(100% * 3 / 12),
-  columns-2: calc(100% * 2 / 12),
-  columns-1: calc(100% * 1 / 12)
-);
+@use 'functions';
 
-// Utility Sizes
-$utility-sizes: (
-  container-full: 100%,
-  container-xxl: 90%,
-  container-xl: 80%,
-  container-lg: 70%,
-  container-md: 60%,
-  container-sm: 50%
+// Base Colors
+$base-colors: (
+  primary: #55B785,
+  secondary: #808181,
+  info: #0099FF,
+  success: #30DF3E,
+  warning: #FB8609,
+  danger: #DF3030,
+  text: #121212,
+  white: #FFFFFF,
+  black: #000000
 );
 
 // Theme Colors
-$theme-colors: (
-  primary: #55B785,
-  secondary: #808181,
-  success: #30DF3E,
-  danger: #DF3030,
-  warning: #FB8609,
-  info: #0099FF,
-  light: #F8F9FA,
-  dark: #343A40
+$theme-colors: map-merge(
+  $base-colors,
+  functions.generate-theme-color-variants($base-colors)
 );
+
+// Grid Column Sizes
+$column-sizes: functions.generate-columns(12);
+
+// Utility Sizes
+$utility-sizes: functions.generate-utility-sizes(1, 19, 5);
+
+// Spacing Sizes
+$spacing-sizes: functions.generate-spacing-sizes(0.25rem, 1, 12);
 
 // Typography Sizes
 $font-sizes: (
+  caption: 0.75rem,
+  small: 0.875rem,
   body: 1rem,
   h1: 3rem,
   h2: 2.5rem,
   h3: 2rem,
   h4: 1.75rem,
-  h5: 1.5rem, 
+  h5: 1.5rem,
   h6: 1.25rem
 );
 
@@ -52,17 +46,6 @@ $line-heights: (
   normal: 1.5,
   small: 1.25,
   large: 2
-);
-
-// Spacing Sizes
-$spacing-sizes: (
-  none: 0,
-  xs: 0.25rem,
-  sm: 0.5rem,
-  md: 1rem,
-  lg: 1.5rem,
-  xl: 2rem,
-  xxl: 3rem
 );
 
 // Breakpoints
