@@ -1,0 +1,112 @@
+/* Complete Flexssentials SCSS framework integrated with CSS variables for one foundational SCSS framework file */
+
+// variables
+
+:root {
+  // Theme Colors
+  --color-primary: #55B785;
+  --color-primary-light: #{lighten(#55B785, 15%)};
+  --color-primary-dark: #{darken(#55B785, 30%)};
+  --color-primary-muted: #{desaturate(#55B785, 100%)};
+  --color-secondary: #808181;
+  --color-secondary-light: #{lighten(#808181, 15%)};
+  --color-secondary-dark: #{darken(#808181, 30%)};
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+
+  // Typography
+  --font-size-body: 1rem;
+  --font-size-h1: 3rem;
+  --font-size-h2: 2.5rem;
+  --font-size-h3: 2rem;
+  --font-size-h4: 1.75rem;
+  --font-size-h5: 1.5rem;
+  --font-size-h6: 1.25rem;
+  --line-height-normal: 1.5;
+  --line-height-small: 1.25;
+  --line-height-large: 2;
+
+  // Spacing
+  --spacing-none: 0;
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;
+
+  // Utility Sizes
+  --size-100: 100%;
+  --size-95: 95%;
+  --size-90: 90%;
+  --size-85: 85%;
+  --size-80: 80%;
+  --size-75: 75%;
+  --size-70: 70%;
+  --size-65: 65%;
+  --size-60: 60%;
+  --size-55: 55%;
+  --size-50: 50%;
+  --size-45: 45%;
+  --size-40: 40%;
+  --size-35: 35%;
+  --size-30: 30%;
+  --size-25: 25%;
+  --size-20: 20%;
+  --size-15: 15%;
+  --size-10: 10%;
+}
+
+// functions
+
+@function spacing($size) {
+  @return var(--spacing-#{$size});
+}
+
+@function color($color-name) {
+  @return var(--color-#{$color-name});
+}
+
+@function font-size($size) {
+  @return var(--font-size-#{$size});
+}
+
+@function line-height($size) {
+  @return var(--line-height-#{$size});
+}
+
+@function utility-size($size) {
+  @return var(--size-#{$size});
+}
+
+// mixins
+
+@mixin flexbox($direction: row, $justify: flex-start, $items: stretch, $content: normal, $wrap: nowrap, $gap: null) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $items;
+  align-content: $content;
+  flex-wrap: $wrap;
+  @if $gap != null { gap: spacing($gap); }
+}
+
+@mixin font-styles($size: body, $weight: normal, $style: normal, $transform: none) {
+  font-size: font-size($size);
+  font-weight: $weight;
+  font-style: $style;
+  text-transform: $transform;
+  line-height: line-height('normal');
+}
+
+@mixin responsive($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media #{map-get($breakpoints, $breakpoint)} {
+      @content;
+    }
+  } @else {
+    @warn "Invalid breakpoint: #{$breakpoint}";
+  }
+}
+
+
