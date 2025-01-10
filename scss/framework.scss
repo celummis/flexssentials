@@ -4,79 +4,133 @@
 
 :root {
   // Theme Colors
-  --color-primary: #55B785;
-  --color-primary-light: #{lighten(#55B785, 15%)};
-  --color-primary-dark: #{darken(#55B785, 30%)};
-  --color-primary-muted: #{desaturate(#55B785, 100%)};
-  --color-secondary: #808181;
-  --color-secondary-light: #{lighten(#808181, 15%)};
-  --color-secondary-dark: #{darken(#808181, 30%)};
-  --color-white: #FFFFFF;
-  --color-black: #000000;
+  --primary: #55B785;
+  --primary-light: #{lighten(#55B785, 15%)};
+  --primary-dark: #{darken(#55B785, 30%)};
+  --primary-muted: #{desaturate(#55B785, 100%)};
+  --secondary: #808181;
+  --secondary-light: #{lighten(#808181, 15%)};
+  --secondary-dark: #{darken(#808181, 30%)};
+  --white: #FFFFFF;
+  --black: #000000;
 
-  // Typography
-  --font-size-body: 1rem;
-  --font-size-h1: 3rem;
-  --font-size-h2: 2.5rem;
-  --font-size-h3: 2rem;
-  --font-size-h4: 1.75rem;
-  --font-size-h5: 1.5rem;
-  --font-size-h6: 1.25rem;
-  --line-height-normal: 1.5;
-  --line-height-small: 1.25;
-  --line-height-large: 2;
+  // Grid Columns
+  --col-12: 100%;
+  --col-11: 91.6666666667%;
+  --col-10: 83.3333333333%;
+  --col-9: 75%;
+  --col-8: 66.6666666667%;
+  --col-7: 58.3333333333%;
+  --col-6: 50%;
+  --col-5: 41.6666666667%;
+  --col-4: 33.3333333333%;
+  --col-3: 25%;
+  --col-2: 16.6666666667%;
+  --col-1: 8.3333333333%;
 
   // Spacing
-  --spacing-none: 0;
-  --spacing-xs: 0.25rem;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --spacing-xl: 2rem;
-  --spacing-xxl: 3rem;
+  --none: 0;
+  --xs: 0.25rem;
+  --sm: 0.5rem;
+  --md: 1rem;
+  --lg: 1.5rem;
+  --xl: 2rem;
+  --xxl: 3rem;
 
   // Utility Sizes
-  --size-100: 100%;
-  --size-95: 95%;
-  --size-90: 90%;
-  --size-85: 85%;
-  --size-80: 80%;
-  --size-75: 75%;
-  --size-70: 70%;
-  --size-65: 65%;
-  --size-60: 60%;
-  --size-55: 55%;
-  --size-50: 50%;
-  --size-45: 45%;
-  --size-40: 40%;
-  --size-35: 35%;
-  --size-30: 30%;
-  --size-25: 25%;
-  --size-20: 20%;
-  --size-15: 15%;
-  --size-10: 10%;
+  --w-100: 100%;
+  --w-95: 95%;
+  --w-90: 90%;
+  --w-85: 85%;
+  --w-80: 80%;
+  --w-75: 75%;
+  --w-70: 70%;
+  --w-65: 65%;
+  --w-60: 60%;
+  --w-55: 55%;
+  --w-50: 50%;
+  --w-45: 45%;
+  --w-40: 40%;
+  --w-35: 35%;
+  --w-30: 30%;
+  --w-25: 25%;
+  --w-20: 20%;
+  --w-15: 15%;
+  --w-10: 10%;
+
+  // Font sizes
+  --footnote: 0.75rem;
+  --caption: 0.85rem;
+  --body: 1rem;
+  --h1: 3rem;
+  --h2: 2.5rem;
+  --h3: 2rem;
+  --h4: 1.75rem;
+  --h5: 1.5rem;
+  --h6: 1.25rem;
+
+  // Line heights
+  --normal: 1.5;
+  --small: 1.25;
+  --large: 2;
 }
 
 // functions
 
+// Retrieve grid column width
+@function column($size) {
+  @if not map-has-key(
+    (12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1), $size) {
+    @warn "Invalid column size: #{$size}. Use a value from 1 to 12.";
+    @return null;
+  }
+  @return var(--col-#{$size});
+}
+
+// Retrieve spacing value
 @function spacing($size) {
-  @return var(--spacing-#{$size});
+  @if not index(--none --xs --sm --md --lg --xl --xxl, $size) {
+    @warn "Invalid spacing size: #{$size}. Use one of: none, xs, sm, md, lg, xl, xxl.";
+    @return null;
+  }
+  @return var(--#{$size});
 }
 
+// Retrieve theme color
 @function color($color-name) {
-  @return var(--color-#{$color-name});
+  @if not index(--primary --primary-light --primary-dark --primary-muted --secondary --secondary-light --secondary-dark --white --black, $color-name) {
+    @warn "Invalid color name: #{$color-name}. Use a valid theme color.";
+    @return null;
+  }
+  @return var(--#{$color-name});
 }
 
+// Retrieve font size
 @function font-size($size) {
-  @return var(--font-size-#{$size});
+  @if not index(--footnote --caption --body --h1 --h2 --h3 --h4 --h5 --h6, $size) {
+    @warn "Invalid font size: #{$size}. Use one of: footnote, caption, body, h1, h2, h3, h4, h5, h6.";
+    @return null;
+  }
+  @return var(--#{$size});
 }
 
-@function line-height($size) {
-  @return var(--line-height-#{$size});
+// Retrieve line height
+@function scale($size) {
+  @if not index(--normal --small --large, $size) {
+    @warn "Invalid line height: #{$size}. Use one of: normal, small, large.";
+    @return null;
+  }
+  @return var(--#{$size});
 }
 
-@function utility-size($size) {
-  @return var(--size-#{$size});
+// Retrieve utility container size
+@function container($size) {
+  @if not map-has-key(
+    (100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10), $size) {
+    @warn "Invalid container size: #{$size}. Use a value from 10 to 100.";
+    @return null;
+  }
+  @return var(--w-#{$size});
 }
 
 // mixins
