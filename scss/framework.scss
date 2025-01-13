@@ -3,14 +3,30 @@
 // variables
 
 :root {
-  // Theme Colors
   --primary: #55B785;
-  --primary-light: #{lighten(#55B785, 15%)};
-  --primary-dark: #{darken(#55B785, 30%)};
-  --primary-muted: #{desaturate(#55B785, 100%)};
+  --primary-light: color.scale(color: #55B785, lightness: 15%);
+  --primary-dark: color.scale(color: #55B785, darkness: -30%);
+  --primary-muted: color.scale(color: #55B785, saturation: -100%);
   --secondary: #808181;
-  --secondary-light: #{lighten(#808181, 15%)};
-  --secondary-dark: #{darken(#808181, 30%)};
+  --secondary-light: color.scale(color: #808181, lightness: 15%);
+  --secondary-dark: color.scale(color: #808181, darkness: -30%);
+  --seconday-muted: color.scale(color: #808181, saturation: -100%);
+  --info: #0099FF;
+  --info-light: color.scale(color: #0099FF, lightness: 15%);
+  --info-dark: color.scale(color: #0099FF, darkness: -30%);
+  --info-muted: color.scale(color: #0099FF, saturation: -100%);
+  --success: #30DF3E;
+  --success-light: color.scale(color: #30DF3E, lightness: 15%);
+  --success-dark: color.scale(color: #30DF3E, darkness: -30%);
+  --success-muted: color.scale(color: #30DF3E, saturation: -100%);
+  --warning: #FB8609;
+  --warning-light: color.scale(color: #FB8609, lightness: 15%);
+  --warning-dark: color.scale(color: #FB8609, darkness: -30%);
+  --warning-muted: color.scale(color: #FB8609, saturation: -100%);
+  --danger: #DF3030;
+  --danger-light: color.scale(color: #DF3030, lightness: 15%);
+  --danger-dark: color.scale(color: #DF3030, darkness: -30%);
+  --danger-muted: color.scale(color: #DF3030, saturation: -100%);
   --white: #FFFFFF;
   --black: #000000;
 
@@ -89,7 +105,14 @@
 
 // Retrieve spacing value
 @function spacing($size) {
-  @if not index(--none --xs --sm --md --lg --xl --xxl, $size) {
+  @if not index(
+    --none 
+    --xs 
+    --sm 
+    --md 
+    --lg 
+    --xl 
+    --xxl, $size) {
     @warn "Invalid spacing size: #{$size}. Use one of: none, xs, sm, md, lg, xl, xxl.";
     @return null;
   }
@@ -98,7 +121,33 @@
 
 // Retrieve theme color
 @function color($color-name) {
-  @if not index(--primary --primary-light --primary-dark --primary-muted --secondary --secondary-light --secondary-dark --white --black, $color-name) {
+  @if not index(
+    --primary 
+    --primary-light 
+    --primary-dark 
+    --primary-muted 
+    --secondary 
+    --secondary-light 
+    --secondary-dark 
+    --secondary-muted 
+    --info
+    --info-light
+    --info-dark
+    --info-muted
+    --success
+    --success-light
+    --success-dark
+    --success-muted
+    --warning
+    --warning-light
+    --warning-dark
+    --warning-muted
+    --danger
+    --danger-light
+    --danger-dark
+    --danger-muted
+    --white 
+    --black, $color-name) {
     @warn "Invalid color name: #{$color-name}. Use a valid theme color.";
     @return null;
   }
@@ -107,7 +156,16 @@
 
 // Retrieve font size
 @function font-size($size) {
-  @if not index(--footnote --caption --body --h1 --h2 --h3 --h4 --h5 --h6, $size) {
+  @if not index(
+    --footnote 
+    --caption 
+    --body 
+    --h1 
+    --h2 
+    --h3 
+    --h4 
+    --h5 
+    --h6, $size) {
     @warn "Invalid font size: #{$size}. Use one of: footnote, caption, body, h1, h2, h3, h4, h5, h6.";
     @return null;
   }
