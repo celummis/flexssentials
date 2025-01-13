@@ -95,100 +95,32 @@
 
 // Retrieve grid column width
 @function column($size) {
-  @if not map-has-key(
-    (12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1), $size) {
-    @warn "Invalid column size: #{$size}. Use a value from 1 to 12.";
-    @return null;
-  }
   @return var(--col-#{$size});
+}
+
+// Retrieve utility container size
+@function container($size) {
+  @return var(--w-#{$size});
 }
 
 // Retrieve spacing value
 @function spacing($size) {
-  @if not index(
-    --none 
-    --xs 
-    --sm 
-    --md 
-    --lg 
-    --xl 
-    --xxl, $size) {
-    @warn "Invalid spacing size: #{$size}. Use one of: none, xs, sm, md, lg, xl, xxl.";
-    @return null;
-  }
   @return var(--#{$size});
 }
 
 // Retrieve theme color
 @function color($color-name) {
-  @if not index(
-    --primary 
-    --primary-light 
-    --primary-dark 
-    --primary-muted 
-    --secondary 
-    --secondary-light 
-    --secondary-dark 
-    --secondary-muted 
-    --info
-    --info-light
-    --info-dark
-    --info-muted
-    --success
-    --success-light
-    --success-dark
-    --success-muted
-    --warning
-    --warning-light
-    --warning-dark
-    --warning-muted
-    --danger
-    --danger-light
-    --danger-dark
-    --danger-muted
-    --white 
-    --black, $color-name) {
-    @warn "Invalid color name: #{$color-name}. Use a valid theme color.";
-    @return null;
-  }
   @return var(--#{$color-name});
 }
 
 // Retrieve font size
-@function font-size($size) {
-  @if not index(
-    --footnote 
-    --caption 
-    --body 
-    --h1 
-    --h2 
-    --h3 
-    --h4 
-    --h5 
-    --h6, $size) {
-    @warn "Invalid font size: #{$size}. Use one of: footnote, caption, body, h1, h2, h3, h4, h5, h6.";
-    @return null;
-  }
+@function font($size) {
   @return var(--#{$size});
 }
 
 // Retrieve line height
 @function scale($size) {
-  @if not index(--normal --small --large, $size) {
-    @warn "Invalid line height: #{$size}. Use one of: normal, small, large.";
-    @return null;
-  }
   @return var(--#{$size});
-}
-
-// Retrieve utility container size
-@function container($size) {
-  @if not map-has-key(
-    (100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10), $size) {
-    @warn "Invalid container size: #{$size}. Use a value from 10 to 100.";
-    @return null;
-  }
-  @return var(--w-#{$size});
 }
 
 // mixins
