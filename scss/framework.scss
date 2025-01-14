@@ -1,7 +1,10 @@
+@use 'reset.scss';
+@use 'sass:map';
+@use 'sass:color';
+
 /* Complete Flexssentials SCSS framework integrated with CSS variables for one foundational SCSS framework file */
 
 // variables
-@use 'sass:color';
 :root {
   --primary: #55B785;
   --primary-light: #{color.scale(#55B785, $lightness: 15%)};
@@ -89,6 +92,13 @@
   --normal: 1.5;
   --small: 1.25;
   --large: 2;
+
+  // Breakpoints
+  --break-xs: 576px;
+  --break-sm: 768px;
+  --break-md: 992px;
+  --break-lg: 1200px;
+  --break-xl: 1400px;
 }
 
 // functions
@@ -121,6 +131,11 @@
 // Retrieve line height
 @function scale($size) {
   @return var(--#{$size});
+}
+
+// Retrieve breakpoint
+@function breakpoint($size) {
+  @return var(--break-#{$size});
 }
 
 // mixins
