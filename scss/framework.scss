@@ -1,32 +1,32 @@
 /* Complete Flexssentials SCSS framework integrated with CSS variables for one foundational SCSS framework file */
 
 // variables
-
+@use 'sass:color';
 :root {
   --primary: #55B785;
-  --primary-light: color.scale(color: #55B785, lightness: 15%);
-  --primary-dark: color.scale(color: #55B785, darkness: -30%);
-  --primary-muted: color.scale(color: #55B785, saturation: -100%);
+  --primary-light: #{color.scale(#55B785, $lightness: 15%)};
+  --primary-dark: #{color.scale(#55B785, $lightness: -30%)};
+  --primary-muted: #{color.scale(#55B785, $saturation: -100%)};
   --secondary: #808181;
-  --secondary-light: color.scale(color: #808181, lightness: 15%);
-  --secondary-dark: color.scale(color: #808181, darkness: -30%);
-  --seconday-muted: color.scale(color: #808181, saturation: -100%);
+  --secondary-light: #{color.scale(#808181, $lightness: 15%)};
+  --secondary-dark: #{color.scale(#808181, $lightness: -30%)};
+  --secondary-muted: #{color.scale(#808181, $saturation: -100%)};
   --info: #0099FF;
-  --info-light: color.scale(color: #0099FF, lightness: 15%);
-  --info-dark: color.scale(color: #0099FF, darkness: -30%);
-  --info-muted: color.scale(color: #0099FF, saturation: -100%);
+  --info-light: #{color.scale(#0099FF, $lightness: 15%)};
+  --info-dark: #{color.scale(#0099FF, $lightness: -30%)};
+  --info-muted: #{color.scale(#0099FF, $saturation: -100%)};
   --success: #30DF3E;
-  --success-light: color.scale(color: #30DF3E, lightness: 15%);
-  --success-dark: color.scale(color: #30DF3E, darkness: -30%);
-  --success-muted: color.scale(color: #30DF3E, saturation: -100%);
+  --success-light: #{color.scale(#30DF3E, $lightness: 15%)};
+  --success-dark: #{color.scale(#30DF3E, $lightness: -30%)};
+  --success-muted: #{color.scale(#30DF3E, $saturation: -100%)};
   --warning: #FB8609;
-  --warning-light: color.scale(color: #FB8609, lightness: 15%);
-  --warning-dark: color.scale(color: #FB8609, darkness: -30%);
-  --warning-muted: color.scale(color: #FB8609, saturation: -100%);
+  --warning-light: #{color.scale(#FB8609, $lightness: 15%)};
+  --warning-dark: #{color.scale(#FB8609, $lightness: -30%)};
+  --warning-muted: #{color.scale(#FB8609, $saturation: -100%)};
   --danger: #DF3030;
-  --danger-light: color.scale(color: #DF3030, lightness: 15%);
-  --danger-dark: color.scale(color: #DF3030, darkness: -30%);
-  --danger-muted: color.scale(color: #DF3030, saturation: -100%);
+  --danger-light: #{color.scale(#DF3030, $lightness: 15%)};
+  --danger-dark: #{color.scale(#DF3030, $lightness: -30%)};
+  --danger-muted: #{color.scale(#DF3030, $saturation: -100%)};
   --white: #FFFFFF;
   --black: #000000;
 
