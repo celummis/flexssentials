@@ -88,6 +88,14 @@
   --h5: 1.5rem;
   --h6: 1.25rem;
 
+  // Font styles
+  --normal: normal;
+  --bold: bold;
+  --italic: italic;
+  --uppercase: uppercase;
+  --lowercase: lowercase;
+  --capitalize: capitalize;
+
   // Line heights
   --normal: 1.5;
   --small: 1.25;
@@ -128,6 +136,11 @@
   @return var(--#{$size});
 }
 
+// Retrieve font style
+@function style($type) {
+  @return var(--#{$type});
+}
+
 // Retrieve line height
 @function scale($size) {
   @return var(--#{$size});
@@ -148,14 +161,6 @@
   align-content: $content;
   flex-wrap: $wrap;
   @if $gap != null { gap: spacing($gap); }
-}
-
-@mixin font-styles($size: body, $weight: normal, $style: normal, $transform: none) {
-  font-size: font-size($size);
-  font-weight: $weight;
-  font-style: $style;
-  text-transform: $transform;
-  line-height: line-height('normal');
 }
 
 @mixin responsive($breakpoint) {
