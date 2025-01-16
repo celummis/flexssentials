@@ -1,35 +1,29 @@
+/* Complete Flexssentials SCSS framework integrated with CSS variables for one foundational SCSS framework file */
+
 @use 'reset.scss';
 @use 'sass:map';
 @use 'sass:color';
 
-/* Complete Flexssentials SCSS framework integrated with CSS variables for one foundational SCSS framework file */
+// Color map to dynamically scale colors
+$colors: (
+  primary: #55B785,
+  secondary: #808181,
+  info: #0099FF,
+  success: #30DF3E,
+  warning: #FB8609,
+  danger: #DF3030,
+  white: #FFFFFF,
+  black: #000000
+);
 
 // variables
 :root {
   --primary: #55B785;
-  --primary-light: #{color.scale(#55B785, $lightness: 15%)};
-  --primary-dark: #{color.scale(#55B785, $lightness: -30%)};
-  --primary-muted: #{color.scale(#55B785, $saturation: -100%)};
   --secondary: #808181;
-  --secondary-light: #{color.scale(#808181, $lightness: 15%)};
-  --secondary-dark: #{color.scale(#808181, $lightness: -30%)};
-  --secondary-muted: #{color.scale(#808181, $saturation: -100%)};
   --info: #0099FF;
-  --info-light: #{color.scale(#0099FF, $lightness: 15%)};
-  --info-dark: #{color.scale(#0099FF, $lightness: -30%)};
-  --info-muted: #{color.scale(#0099FF, $saturation: -100%)};
   --success: #30DF3E;
-  --success-light: #{color.scale(#30DF3E, $lightness: 15%)};
-  --success-dark: #{color.scale(#30DF3E, $lightness: -30%)};
-  --success-muted: #{color.scale(#30DF3E, $saturation: -100%)};
   --warning: #FB8609;
-  --warning-light: #{color.scale(#FB8609, $lightness: 15%)};
-  --warning-dark: #{color.scale(#FB8609, $lightness: -30%)};
-  --warning-muted: #{color.scale(#FB8609, $saturation: -100%)};
   --danger: #DF3030;
-  --danger-light: #{color.scale(#DF3030, $lightness: 15%)};
-  --danger-dark: #{color.scale(#DF3030, $lightness: -30%)};
-  --danger-muted: #{color.scale(#DF3030, $saturation: -100%)};
   --white: #FFFFFF;
   --black: #000000;
 
@@ -79,7 +73,8 @@
 
   // Font sizes
   --footnote: 0.75rem;
-  --caption: 0.85rem;
+  --table: 0.85rem;
+  --label: 0.9rem;
   --body: 1rem;
   --h1: 3rem;
   --h2: 2.5rem;
@@ -88,13 +83,13 @@
   --h5: 1.5rem;
   --h6: 1.25rem;
 
-  // Font styles
-  --normal: normal;
-  --bold: bold;
-  --italic: italic;
-  --uppercase: uppercase;
-  --lowercase: lowercase;
-  --capitalize: capitalize;
+   // Font styles
+   --normal: normal;
+   --bold: bold;
+   --italic: italic;
+   --uppercase: uppercase;
+   --lowercase: lowercase;
+   --capitalize: capitalize;
 
   // Line heights
   --normal: 1.5;
@@ -131,6 +126,21 @@
   @return var(--#{$color-name});
 }
 
+@function scale-color($color-name, $lightness: null) {
+  $base-color: map.get($colors, $color-name); // Get the base color from the map
+
+  @if $base-color == null {
+    @warn "Color `#{$color-name}` not found in the color map.";
+    @return null;
+  }
+
+  @if $lightness != null {
+    $base-color: color.scale($base-color, $lightness: $lightness); // Scale lightness dynamically
+  }
+
+  @return $base-color; // Return the adjusted color
+}
+
 // Retrieve font size
 @function font($size) {
   @return var(--#{$size});
@@ -163,6 +173,14 @@
   @if $gap != null { gap: spacing($gap); }
 }
 
+@mixin font-styles($size: body, $weight: normal, $style: normal, $transform: none) {
+  font-size: font-size($size);
+  font-weight: $weight;
+  font-style: $style;
+  text-transform: $transform;
+  line-height: line-height('normal');
+}
+
 @mixin responsive($breakpoint) {
   @if map-has-key($breakpoints, $breakpoint) {
     @media #{map-get($breakpoints, $breakpoint)} {
@@ -172,5 +190,3 @@
     @warn "Invalid breakpoint: #{$breakpoint}";
   }
 }
-
-
