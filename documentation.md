@@ -2,7 +2,43 @@
 
 This documentation details an overview of the **Flexssentials SCSS** system. It offers a comprehensive approach to styling the essentials (layout, colors, typography and spacing) of an application or website. 
 
-The system uses the SCSS partials  `_variables`, `_functions` and `_mixins` to handle all the styling needs for the following:
+## Getting Started
+
+### Installation
+
+To use Flexssentials in your project:
+
+1. First, ensure the `scss` directory containing the framework files is included in your project structure:
+   ```
+   your-project/
+   ├── scss/
+   │   ├── framework.scss      (main file that imports all partials)
+   │   ├── _variables.scss
+   │   ├── _functions.scss
+   │   ├── _mixins.scss
+   │   └── ...other partials
+   ├── styles.scss             (Angular) or App.scss (React)
+   └── ...other project files
+   ```
+
+2. Then, in your main SCSS file (styles.scss in Angular or App.scss in React), simply add:
+
+   ```scss
+   @use 'sass:color';
+   @use 'scss/framework.scss' as *; // removes the need to use "framework." before each function
+   ```
+
+This imports all the necessary functions and mixins with no namespace prefix, allowing you to use them directly in your stylesheets. The path in the `@use` statement is relative to your project's root stylesheet.
+
+If your project structure differs, adjust the path to match the location of the scss directory, for example:
+```scss
+@use 'sass:color';
+@use './assets/scss/framework.scss' as *;
+```
+
+## Core Features
+
+The framework handles all the styling needs for the following:
 
 * Grid columns
 * Utility container sizes
@@ -12,9 +48,7 @@ The system uses the SCSS partials  `_variables`, `_functions` and `_mixins` to h
 * Margins and Padding
 * Responsive Breakpoints
 
-Focusing on core styles, reduces the need for style adjustments when using third-party component libraries.
-
-
+Focusing on core styles reduces the need for style adjustments when using third-party component libraries.
 
 ### _Variables
 
@@ -397,16 +431,13 @@ Focusing on core styles, reduces the need for style adjustments when using third
      }
      ```
 
-
-
 ### Example using Flexssentials
 
-This is an example of an Angular application component using **Flexssentials SCSS**.
+This is an example of using **Flexssentials SCSS** in a component:
 
 ```scss
-@import 'variables';
-@import 'functions';
-@import 'mixins';
+@use 'sass:color';
+@use 'scss/framework.scss' as *;
 
 .topbar {
   @include apply-flexbox($items: center);
@@ -431,7 +462,7 @@ This is an example of an Angular application component using **Flexssentials SCS
 }
 ```
 
-This is the compiled CSS
+This is the compiled CSS:
 
 ```css
 .topbar {
@@ -456,6 +487,396 @@ This is the compiled CSS
 
 .topbar ul a {
   color: #FFFFFF;
+}
+```
+
+## Best Practices Review
+
+This SCSS framework follows modern best practices:
+
+1. **Modular Design**: Separates variables, functions, and mixins for better organization
+2. **Configuration via Maps**: Uses Sass maps for easy configuration of colors, spacing, and breakpoints
+3. **Consistent Naming**: Clear naming conventions with prefixes like `apply-` for mixins
+4. **Optional Parameters**: Most mixins have null defaults for maximum flexibility
+5. **Error Handling**: Provides warnings when invalid parameters are passed
+6. **Modern Sass Features**: Uses the @use syntax instead of the deprecated @import
+7. **Extensible**: Easy to customize for specific project needs
+
+### Recommendations for Improvement
+
+For even better flexibility, consider:
+
+1. Using CSS custom properties (variables) alongside SCSS for runtime theming changes
+2. Adding more utility functions for common tasks (e.g., border-radius, transitions)
+3. Creating a configuration file that can be overridden by projects
+4. Adding more shorthand mixins for common patterns
+
+## Usage Examples
+
+Below are comprehensive examples of how to use the Flexssentials SCSS framework for common UI patterns.
+
+### Grid Layout Example
+
+Creating a responsive grid layout with equal-width columns that stack on mobile:
+
+```scss
+.grid-container {
+  @include apply-flexbox($wrap: wrap);
+  gap: spacing(md);
+  
+  .grid-item {
+    width: columns(columns-12);
+    
+    @include apply-responsive(md) {
+      width: columns(columns-6);
+    }
+    
+    @include apply-responsive(lg) {
+      width: columns(columns-4);
+    }
+  }
+}
+```
+
+### Container Widths Example
+
+Creating different container widths for different sections:
+
+```scss
+.page-container {
+  width: container(container-100);
+  @include apply-spacing(padding, $horizontal: md);
+  
+  .content-area {
+    width: container(container-80);
+    margin: 0 auto;
+    
+    @include apply-responsive(lg) {
+      width: container(container-70);
+    }
+  }
+  
+  .sidebar {
+    width: container(container-20);
+    
+    @include apply-responsive(sm) {
+      width: container(container-30);
+    }
+  }
+}
+```
+
+### Flexbox Patterns Example
+
+Creating a card layout with flexbox:
+
+```scss
+.card {
+  @include apply-flexbox($direction: column);
+  border: 1px solid apply-color(secondary, 30%);
+  border-radius: 4px;
+  overflow: hidden;
+  
+  .card-header {
+    @include apply-flexbox($justify: space-between, $items: center);
+    @include apply-spacing(padding, $all: md);
+    background-color: apply-color(primary, 10%);
+    
+    h3 {
+      @include apply-typography($size: h6, $weight: 600);
+      margin: 0;
+    }
+  }
+  
+  .card-body {
+    @include apply-spacing(padding, $all: md);
+    @include apply-flex-item($grow: 1);
+  }
+  
+  .card-footer {
+    @include apply-flexbox($justify: flex-end, $items: center);
+    @include apply-spacing(padding, $all: md);
+    background-color: apply-color(secondary, 90%);
+    gap: spacing(sm);
+  }
+}
+```
+
+### Theme Colors Example
+
+Using theme colors with variations:
+
+```scss
+.alerts-container {
+  .alert {
+    @include apply-spacing(padding, $all: md);
+    border-radius: 4px;
+    
+    &.alert-primary {
+      background-color: apply-color(primary, 80%);
+      border: 1px solid apply-color(primary);
+      color: apply-color(primary, -50%);
+    }
+    
+    &.alert-warning {
+      background-color: apply-color(warning, 85%);
+      border: 1px solid apply-color(warning);
+      color: apply-color(warning, -40%);
+    }
+    
+    &.alert-alert {
+      background-color: apply-color(alert, 90%);
+      border: 1px solid apply-color(alert);
+      color: apply-color(alert, -30%);
+    }
+  }
+}
+```
+
+### Typography Example
+
+Applying typography styles to different elements:
+
+```scss
+.article {
+  .article-title {
+    @include apply-typography($size: h2, $weight: 700);
+    @include apply-spacing(margin, $bottom: lg);
+    color: apply-color(primary, -20%);
+  }
+  
+  .article-metadata {
+    @include apply-typography($size: body, $style: italic);
+    @include apply-spacing(margin, $bottom: md);
+    color: apply-color(secondary);
+  }
+  
+  .article-summary {
+    @include apply-typography($weight: 600);
+    @include apply-spacing(margin, $bottom: lg);
+  }
+  
+  .article-content {
+    h3 {
+      @include apply-typography($size: h4, $weight: 600);
+      @include apply-spacing(margin, $top: xl, $bottom: md);
+    }
+    
+    p {
+      @include apply-spacing(margin, $bottom: md);
+      line-height: 1.6;
+    }
+    
+    .highlight {
+      @include apply-typography($weight: 700, $uppercase: true);
+      color: apply-color(primary);
+    }
+  }
+}
+```
+
+### Spacing Example
+
+Applying consistent spacing:
+
+```scss
+.form-group {
+  @include apply-spacing(margin, $bottom: lg);
+  
+  label {
+    @include apply-spacing(margin, $bottom: xs);
+    display: block;
+    @include apply-typography($weight: 600);
+  }
+  
+  input, select, textarea {
+    width: 100%;
+    @include apply-spacing(padding, $vertical: sm, $horizontal: md);
+    border: 1px solid apply-color(secondary, 60%);
+    border-radius: 4px;
+    
+    &:focus {
+      outline: none;
+      border-color: apply-color(primary);
+    }
+  }
+  
+  .helper-text {
+    @include apply-spacing(margin, $top: xs);
+    @include apply-typography($size: 0.875rem);
+    color: apply-color(secondary, 20%);
+  }
+}
+```
+
+### Responsive Design Example
+
+Creating a responsive navigation menu:
+
+```scss
+.navbar {
+  @include apply-flexbox($justify: space-between, $items: center);
+  @include apply-spacing(padding, $all: md);
+  background-color: apply-color(primary);
+  
+  .logo {
+    @include apply-typography($size: h5, $weight: 700);
+    color: apply-color(white);
+  }
+  
+  .nav-links {
+    // Mobile-first: hidden by default
+    display: none;
+    
+    @include apply-responsive(md) {
+      @include apply-flexbox($items: center);
+      gap: spacing(lg);
+    }
+    
+    a {
+      color: apply-color(white, 20%);
+      text-decoration: none;
+      
+      &:hover, &.active {
+        color: apply-color(white);
+      }
+    }
+  }
+  
+  .mobile-toggle {
+    @include apply-spacing(padding, $all: sm);
+    background: none;
+    border: none;
+    color: apply-color(white);
+    
+    @include apply-responsive(md) {
+      display: none;
+    }
+  }
+  
+  &.open .nav-links {
+    @include apply-flexbox($direction: column);
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background-color: apply-color(primary, -10%);
+    @include apply-spacing(padding, $vertical: md);
+    
+    a {
+      @include apply-spacing(padding, $vertical: sm, $horizontal: md);
+      width: 100%;
+      text-align: center;
+      
+      &:hover {
+        background-color: apply-color(primary, -20%);
+      }
+    }
+  }
+}
+```
+
+### Combining Features Example
+
+This example showcases a complete product card combining multiple Flexssentials features:
+
+```scss
+.product-card {
+  @include apply-flexbox($direction: column);
+  width: columns(columns-12);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  @include apply-responsive(sm) {
+    width: columns(columns-6);
+  }
+  
+  @include apply-responsive(lg) {
+    width: columns(columns-4);
+  }
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .product-image {
+    height: 200px;
+    overflow: hidden;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+      
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+  
+  .product-info {
+    @include apply-flexbox($direction: column);
+    @include apply-flex-item($grow: 1);
+    @include apply-spacing(padding, $all: md);
+  }
+  
+  .product-category {
+    @include apply-typography($size: 0.875rem, $uppercase: true);
+    @include apply-spacing(margin, $bottom: xs);
+    color: apply-color(secondary);
+  }
+  
+  .product-name {
+    @include apply-typography($size: h5, $weight: 600);
+    @include apply-spacing(margin, $bottom: sm);
+    color: apply-color(black);
+  }
+  
+  .product-description {
+    @include apply-typography($size: 0.9375rem);
+    @include apply-spacing(margin, $bottom: md);
+    color: apply-color(secondary, -30%);
+    line-height: 1.5;
+  }
+  
+  .product-footer {
+    @include apply-flexbox($justify: space-between, $items: center);
+    @include apply-spacing(margin, $top: auto);
+    
+    .product-price {
+      @include apply-typography($size: h6, $weight: 700);
+      color: apply-color(primary, -20%);
+    }
+    
+    .add-to-cart {
+      @include apply-spacing(padding, $vertical: sm, $horizontal: md);
+      background-color: apply-color(primary);
+      color: apply-color(white);
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      
+      &:hover {
+        background-color: apply-color(primary, -15%);
+      }
+    }
+  }
+  
+  .product-badge {
+    position: absolute;
+    top: spacing(sm);
+    right: spacing(sm);
+    @include apply-spacing(padding, $vertical: xs, $horizontal: sm);
+    @include apply-typography($size: 0.75rem, $weight: 700, $uppercase: true);
+    background-color: apply-color(success);
+    color: apply-color(white);
+    border-radius: 4px;
+  }
 }
 ```
 
