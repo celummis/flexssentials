@@ -1,168 +1,240 @@
-/* Complete Flexssentials SCSS framework integrated with CSS variables for one foundational SCSS framework file */
+/* 
+ * Flexssentials SCSS Framework
+ * A comprehensive approach to styling essentials: layout, colors, typography, and spacing
+ * This file serves as the main entry point that integrates all framework components
+ */
 
-@use 'reset.scss';
+// Import Sass modules
 @use 'sass:map';
 @use 'sass:color';
+@use 'sass:math';
 
-// Color map to dynamically scale colors
-$colors: (
-  primary: #55B785,
-  secondary: #808181,
-  info: #0099FF,
-  success: #30DF3E,
-  warning: #FB8609,
-  danger: #DF3030,
-  white: #FFFFFF,
-  black: #000000
-);
+// Import configuration with defaults
+@use 'config' as config;
 
-// variables
-:root {
-  --primary: #55B785;
-  --secondary: #808181;
-  --info: #0099FF;
-  --success: #30DF3E;
-  --warning: #FB8609;
-  --danger: #DF3030;
-  --white: #FFFFFF;
-  --black: #000000;
+/* 
+ * Import the reset stylesheet for consistent cross-browser rendering
+ * This can be disabled in the config if not needed
+ */
+@use 'reset';
 
-  // Grid Columns
-  --col-12: 100%;
-  --col-11: 91.6666666667%;
-  --col-10: 83.3333333333%;
-  --col-9: 75%;
-  --col-8: 66.6666666667%;
-  --col-7: 58.3333333333%;
-  --col-6: 50%;
-  --col-5: 41.6666666667%;
-  --col-4: 33.3333333333%;
-  --col-3: 25%;
-  --col-2: 16.6666666667%;
-  --col-1: 8.3333333333%;
+// Forward all partials to make them available when importing framework.scss
+@forward 'variables';
+@forward 'functions';
+@forward 'mixins';
 
-  // Spacing
-  --none: 0;
-  --xs: 0.25rem;
-  --sm: 0.5rem;
-  --md: 1rem;
-  --lg: 1.5rem;
-  --xl: 2rem;
-  --xxl: 3rem;
+/*
+ * CSS Variables
+ * Define CSS custom properties for runtime theme customization
+ * These can be modified at runtime with JavaScript for dynamic theming
+ */
+@if config.$enable-css-variables {
+  :root {
+    // Generate color variables from the theme colors
+    @each $name, $value in config.$theme-colors-default {
+      --#{$name}: #{$value};
+    }
 
-  // Utility Sizes
-  --w-100: 100%;
-  --w-95: 95%;
-  --w-90: 90%;
-  --w-85: 85%;
-  --w-80: 80%;
-  --w-75: 75%;
-  --w-70: 70%;
-  --w-65: 65%;
-  --w-60: 60%;
-  --w-55: 55%;
-  --w-50: 50%;
-  --w-45: 45%;
-  --w-40: 40%;
-  --w-35: 35%;
-  --w-30: 30%;
-  --w-25: 25%;
-  --w-20: 20%;
-  --w-15: 15%;
-  --w-10: 10%;
+    // Grid Columns
+    --col-12: 100%;
+    --col-11: 91.6666666667%;
+    --col-10: 83.3333333333%;
+    --col-9: 75%;
+    --col-8: 66.6666666667%;
+    --col-7: 58.3333333333%;
+    --col-6: 50%;
+    --col-5: 41.6666666667%;
+    --col-4: 33.3333333333%;
+    --col-3: 25%;
+    --col-2: 16.6666666667%;
+    --col-1: 8.3333333333%;
 
-  // Font sizes
-  --footnote: 0.75rem;
-  --table: 0.85rem;
-  --label: 0.9rem;
-  --body: 1rem;
-  --h1: 3rem;
-  --h2: 2.5rem;
-  --h3: 2rem;
-  --h4: 1.75rem;
-  --h5: 1.5rem;
-  --h6: 1.25rem;
+    // Spacing
+    --none: 0;
+    --xs: 0.25rem;
+    --sm: 0.5rem;
+    --md: 1rem;
+    --lg: 1.5rem;
+    --xl: 2rem;
+    --xxl: 3rem;
 
-   // Font styles
-   --normal: normal;
-   --bold: bold;
-   --italic: italic;
-   --uppercase: uppercase;
-   --lowercase: lowercase;
-   --capitalize: capitalize;
+    // Utility Sizes
+    --w-100: 100%;
+    --w-95: 95%;
+    --w-90: 90%;
+    --w-85: 85%;
+    --w-80: 80%;
+    --w-75: 75%;
+    --w-70: 70%;
+    --w-65: 65%;
+    --w-60: 60%;
+    --w-55: 55%;
+    --w-50: 50%;
+    --w-45: 45%;
+    --w-40: 40%;
+    --w-35: 35%;
+    --w-30: 30%;
+    --w-25: 25%;
+    --w-20: 20%;
+    --w-15: 15%;
+    --w-10: 10%;
 
-  // Line heights
-  --normal: 1.5;
-  --small: 1.25;
-  --large: 2;
+    // Font sizes
+    --footnote: 0.75rem;
+    --table: 0.85rem;
+    --label: 0.9rem;
+    --body: 1rem;
+    --h1: 3rem;
+    --h2: 2.5rem;
+    --h3: 2rem;
+    --h4: 1.75rem;
+    --h5: 1.5rem;
+    --h6: 1.25rem;
 
-  // Breakpoints
-  --break-xs: 576px;
-  --break-sm: 768px;
-  --break-md: 992px;
-  --break-lg: 1200px;
-  --break-xl: 1400px;
+    // Font styles
+    --normal: normal;
+    --bold: bold;
+    --italic: italic;
+    --uppercase: uppercase;
+    --lowercase: lowercase;
+    --capitalize: capitalize;
+
+    // Line heights
+    --lh-normal: 1.5;
+    --lh-small: 1.25;
+    --lh-large: 2;
+
+    // Breakpoints
+    --break-xs: 576px;
+    --break-sm: 768px;
+    --break-md: 992px;
+    --break-lg: 1200px;
+    --break-xl: 1400px;
+  }
 }
 
-// functions
+/*
+ * Core Functions
+ * These provide access to framework values and calculations
+ */
 
-// Retrieve grid column width
+/**
+ * Retrieve grid column width
+ * @param {number} $size - Column size (1-12)
+ * @return {string} CSS variable for column width
+ */
 @function column($size) {
   @return var(--col-#{$size});
 }
 
-// Retrieve utility container size
+/**
+ * Retrieve utility container size
+ * @param {number} $size - Container width percentage (10-100)
+ * @return {string} CSS variable for container width
+ */
 @function container($size) {
   @return var(--w-#{$size});
 }
 
-// Retrieve spacing value
+/**
+ * Retrieve spacing value
+ * @param {string} $size - Spacing size key (xs, sm, md, lg, xl, xxl)
+ * @return {string} CSS variable for spacing
+ */
 @function spacing($size) {
   @return var(--#{$size});
 }
 
-// Retrieve theme color
+/**
+ * Retrieve theme color
+ * @param {string} $color-name - Color name (primary, secondary, etc.)
+ * @return {string} CSS variable for color
+ */
 @function color($color-name) {
   @return var(--#{$color-name});
 }
 
-@function scale-color($color-name, $lightness: null) {
-  $base-color: map.get($colors, $color-name); // Get the base color from the map
+/**
+ * Get or modify a theme color
+ * Avoids naming conflict with Sass built-in scale-color function
+ * 
+ * @param {string} $color-name - Color name from the theme colors map
+ * @param {number} $percentage - Optional percentage to lighten/darken
+ * @return {color} The original or modified color
+ */
+@function theme-color($color-name, $percentage: null) {
+  // Merge custom colors with default colors
+  $theme-colors: map.merge(config.$theme-colors-default, config.$theme-colors-custom);
+  $base-color: map.get($theme-colors, $color-name);
 
   @if $base-color == null {
-    @warn "Color `#{$color-name}` not found in the color map.";
+    @warn "Color '#{$color-name}' not found in the theme colors map.";
     @return null;
   }
 
-  @if $lightness != null {
-    $base-color: color.scale($base-color, $lightness: $lightness); // Scale lightness dynamically
+  // Return the original color if no adjustment needed
+  @if $percentage == null or $percentage == 0% {
+    @return $base-color;
   }
 
-  @return $base-color; // Return the adjusted color
+  // Apply lightening or darkening based on percentage sign
+  @if $percentage > 0% {
+    @return lighten($base-color, $percentage);
+  } @else {
+    @return darken($base-color, abs($percentage));
+  }
 }
 
-// Retrieve font size
-@function font($size) {
+/**
+ * Retrieve font size
+ * @param {string} $size - Font size key (body, h1-h6, etc.)
+ * @return {string} CSS variable for font size
+ */
+@function font-size($size) {
   @return var(--#{$size});
 }
 
-// Retrieve font style
-@function style($type) {
+/**
+ * Retrieve font style
+ * @param {string} $type - Style type (normal, bold, italic, etc.)
+ * @return {string} CSS variable for font style
+ */
+@function font-style($type) {
   @return var(--#{$type});
 }
 
-// Retrieve line height
-@function scale($size) {
-  @return var(--#{$size});
+/**
+ * Retrieve line height
+ * @param {string} $size - Line height key (normal, small, large)
+ * @return {string} CSS variable for line height
+ */
+@function line-height($size) {
+  @return var(--lh-#{$size});
 }
 
-// Retrieve breakpoint
+/**
+ * Retrieve breakpoint
+ * @param {string} $size - Breakpoint key (xs, sm, md, lg, xl)
+ * @return {string} CSS variable for breakpoint
+ */
 @function breakpoint($size) {
   @return var(--break-#{$size});
 }
 
-// mixins
+/*
+ * Core Mixins
+ * These provide reusable styling patterns
+ */
 
+/**
+ * Apply flexbox layout properties
+ * @param {string} $direction - flex-direction property (row, column, etc.)
+ * @param {string} $justify - justify-content property
+ * @param {string} $items - align-items property
+ * @param {string} $content - align-content property
+ * @param {string} $wrap - flex-wrap property
+ * @param {string} $gap - gap between flex items (uses spacing sizes)
+ */
 @mixin flexbox($direction: row, $justify: flex-start, $items: stretch, $content: normal, $wrap: nowrap, $gap: null) {
   display: flex;
   flex-direction: $direction;
@@ -173,6 +245,13 @@ $colors: (
   @if $gap != null { gap: spacing($gap); }
 }
 
+/**
+ * Apply font styling
+ * @param {string} $size - Font size key
+ * @param {string|number} $weight - Font weight
+ * @param {string} $style - Font style
+ * @param {string} $transform - Text transform property
+ */
 @mixin font-styles($size: body, $weight: normal, $style: normal, $transform: none) {
   font-size: font-size($size);
   font-weight: $weight;
@@ -181,7 +260,14 @@ $colors: (
   line-height: line-height('normal');
 }
 
+/**
+ * Apply responsive styles based on breakpoint
+ * @param {string} $breakpoint - Breakpoint key from config.$breakpoints-default map
+ */
 @mixin responsive($breakpoint) {
+  // Merge custom breakpoints with default breakpoints
+  $breakpoints: map.merge(config.$breakpoints-default, config.$breakpoints-custom);
+  
   @if map-has-key($breakpoints, $breakpoint) {
     @media #{map-get($breakpoints, $breakpoint)} {
       @content;
@@ -190,3 +276,146 @@ $colors: (
     @warn "Invalid breakpoint: #{$breakpoint}";
   }
 }
+
+/**
+ * Apply spacing (margin or padding)
+ * @param {string} $type - Spacing type (margin or padding)
+ * @param {string} $top - Top spacing size
+ * @param {string} $right - Right spacing size
+ * @param {string} $bottom - Bottom spacing size
+ * @param {string} $left - Left spacing size
+ */
+@mixin spacing($type: margin, $top: null, $right: null, $bottom: null, $left: null) {
+  @if $top != null { #{$type}-top: spacing($top); }
+  @if $right != null { #{$type}-right: spacing($right); }
+  @if $bottom != null { #{$type}-bottom: spacing($bottom); }
+  @if $left != null { #{$type}-left: spacing($left); }
+}
+
+/**
+ * Shorthand for applying margin
+ * @param {string} $top - Top margin size
+ * @param {string} $right - Right margin size
+ * @param {string} $bottom - Bottom margin size
+ * @param {string} $left - Left margin size
+ */
+@mixin margin($top: null, $right: null, $bottom: null, $left: null) {
+  @include spacing(margin, $top, $right, $bottom, $left);
+}
+
+/**
+ * Shorthand for applying padding
+ * @param {string} $top - Top padding size
+ * @param {string} $right - Right padding size
+ * @param {string} $bottom - Bottom padding size
+ * @param {string} $left - Left padding size
+ */
+@mixin padding($top: null, $right: null, $bottom: null, $left: null) {
+  @include spacing(padding, $top, $right, $bottom, $left);
+}
+
+/*
+ * Print Styles
+ * Optimizes the layout for printing
+ */
+@if config.$enable-print-styles {
+  @media print {
+    // Hide navigation, buttons, ads, etc.
+    nav, button, .ad, .no-print {
+      display: none !important;
+    }
+    
+    // Ensure text is black for better print quality
+    body {
+      color: #000;
+      background: #fff;
+    }
+    
+    // Ensure links show their URL
+    a[href]:after {
+      content: " (" attr(href) ")";
+    }
+    
+    // Break inside avoidance
+    h1, h2, h3, h4, h5, h6, img {
+      page-break-after: avoid;
+      page-break-inside: avoid;
+    }
+    
+    // Print background colors and images
+    * {
+      -webkit-print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+  }
+}
+
+/*
+ * Base utility classes generation
+ * Creates common utility classes for flexbox, spacing, etc.
+ */
+@if config.$enable-responsive-utilities {
+  // Flexbox utilities
+  .d-flex { display: flex; }
+  .flex-row { flex-direction: row; }
+  .flex-column { flex-direction: column; }
+  .justify-content-start { justify-content: flex-start; }
+  .justify-content-center { justify-content: center; }
+  .justify-content-end { justify-content: flex-end; }
+  .justify-content-between { justify-content: space-between; }
+  .justify-content-around { justify-content: space-around; }
+  .align-items-start { align-items: flex-start; }
+  .align-items-center { align-items: center; }
+  .align-items-end { align-items: flex-end; }
+  .flex-wrap { flex-wrap: wrap; }
+  .flex-nowrap { flex-wrap: nowrap; }
+  
+  // Spacing utilities
+  @each $name, $value in config.$spacing-utilities {
+    .m-#{$name} { margin: spacing($value); }
+    .mx-#{$name} { 
+      margin-left: spacing($value); 
+      margin-right: spacing($value);
+    }
+    .my-#{$name} { 
+      margin-top: spacing($value); 
+      margin-bottom: spacing($value);
+    }
+    .mt-#{$name} { margin-top: spacing($value); }
+    .mr-#{$name} { margin-right: spacing($value); }
+    .mb-#{$name} { margin-bottom: spacing($value); }
+    .ml-#{$name} { margin-left: spacing($value); }
+    
+    .p-#{$name} { padding: spacing($value); }
+    .px-#{$name} { 
+      padding-left: spacing($value); 
+      padding-right: spacing($value);
+    }
+    .py-#{$name} { 
+      padding-top: spacing($value); 
+      padding-bottom: spacing($value);
+    }
+    .pt-#{$name} { padding-top: spacing($value); }
+    .pr-#{$name} { padding-right: spacing($value); }
+    .pb-#{$name} { padding-bottom: spacing($value); }
+    .pl-#{$name} { padding-left: spacing($value); }
+  }
+}
+
+// Dark mode support (initial implementation)
+@if config.$enable-dark-mode {
+  @media (prefers-color-scheme: dark) {
+    :root {
+      @each $name, $value in config.$dark-mode-colors {
+        --#{$name}: #{$value};
+      }
+    }
+  }
+}
+
+/*
+ * Future Enhancements To Consider:
+ * 1. Add accessibility utilities for focus styles, screenreader-only content
+ * 2. Expand dark mode support with more comprehensive styling
+ * 3. Add more utility generators for common CSS patterns
+ */

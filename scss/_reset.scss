@@ -1,3 +1,14 @@
+/*
+ * _reset.scss
+ * A comprehensive CSS reset to normalize browser inconsistencies
+ * Provides a clean slate for styling by removing default browser styles
+ */
+
+/* 
+ * Box Sizing Reset
+ * Sets all elements to use border-box sizing model
+ * Ensures padding and border are included in element width calculations
+ */
 *,
 *:before,
 *::before,
@@ -18,6 +29,11 @@
   -webkit-padding-start: 0;
 }
 
+/*
+ * HTML Element Reset
+ * Configures the root HTML element for proper text sizing and rendering
+ * Improves text readability and anti-aliasing across browsers
+ */
 html {
   -webkit-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
@@ -30,6 +46,11 @@ html {
   overflow-y: scroll;
 }
 
+/*
+ * Link Styling Reset
+ * Removes default styling from anchor elements
+ * Gives full control over link styling to the CSS framework
+ */
 a {
   cursor: pointer;
 }
@@ -44,23 +65,42 @@ a:visited {
   color: inherit;
 }
 
+/*
+ * Image Reset
+ * Removes extra space below images and makes them responsive
+ * Ensures consistent image display across browsers
+ */
 img {
   vertical-align: middle;
   width: auto;
   height: auto;
 }
 
+/*
+ * List Reset
+ * Removes default list markers and indentation
+ * Allows for custom styling of list elements
+ */
 ul,
 ol,
 li {
   list-style: none;
 }
 
+/*
+ * Superscript Reset
+ * Standardizes superscript element styling
+ */
 sup {
   font-size: 75%;
   vertical-align: 3px;
 }
 
+/*
+ * Table Reset
+ * Removes default table spacing and borders
+ * Sets tables to use the full width available
+ */
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -72,6 +112,11 @@ table td {
   text-align: left;
 }
 
+/*
+ * HTML5 Element Display
+ * Ensures proper display of HTML5 semantic elements in older browsers
+ * Sets all block-level elements to display as blocks
+ */
 article,
 aside,
 details,
@@ -88,10 +133,18 @@ summary {
   display: block;
 }
 
+/*
+ * SVG Reset
+ * Prevents SVG content from overflowing its container
+ */
 svg:not(:root) {
   overflow: hidden;
 }
 
+/*
+ * Text Hyphenation Reset
+ * Disables automatic hyphenation for better control over text wrapping
+ */
 input,
 blockquote {
   -webkit-hyphens: none;
@@ -99,6 +152,11 @@ blockquote {
   hyphens: none;
 }
 
+/*
+ * Form Element Reset
+ * Removes browser-specific styling from form elements
+ * Standardizes the appearance of buttons across browsers
+ */
 input[type="button"],
 input[type="submit"],
 input[type="reset"],
@@ -121,11 +179,19 @@ select {
   cursor: pointer;
 }
 
+/*
+ * Number Input Reset
+ * Removes browser-added increment/decrement controls
+ */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   height: auto;
 }
 
+/*
+ * Search Input Reset
+ * Removes browser-specific styling from search inputs
+ */
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;

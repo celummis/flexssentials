@@ -880,6 +880,164 @@ This example showcases a complete product card combining multiple Flexssentials 
 }
 ```
 
+## Improved Framework.scss Structure
+
+Below is an enhanced version of `framework.scss` that implements several best practices for better flexibility, maintainability, and feature coverage:
+
+```scss
+// framework.scss - Main entry point for Flexssentials SCSS framework
+
+// Import Sass modules
+@use 'sass:color';
+@use 'sass:map';
+@use 'sass:math';
+
+// Import configuration with defaults that can be overridden
+@use 'config' as config;
+
+// Forward all partials to make their members available when importing framework
+// This allows users to access all functionality with a single import
+@forward 'variables' with (
+  // Merge default variable maps with any custom configuration
+  $theme-colors: map.merge(config.$theme-colors-default, config.$theme-colors-custom),
+  $spacing-sizes: map.merge(config.$spacing-sizes-default, config.$spacing-sizes-custom),
+  $breakpoints: map.merge(config.$breakpoints-default, config.$breakpoints-custom),
+  $font-sizes: map.merge(config.$font-sizes-default, config.$font-sizes-custom),
+  $column-sizes: map.merge(config.$column-sizes-default, config.$column-sizes-custom),
+  $utility-sizes: map.merge(config.$utility-sizes-default, config.$utility-sizes-custom)
+);
+@forward 'functions';
+@forward 'mixins';
+@forward 'reset';
+@forward 'utilities';
+@forward 'print';
+@forward 'accessibility';
+@forward 'dark-mode';
+
+// This enables the CSS reset by default, but can be turned off
+@if config.$enable-reset {
+  @include reset.base-reset();
+}
+
+// Generate utility classes if enabled
+@if config.$enable-utilities {
+  @include utilities.generate();
+}
+```
+
+### Explanation of Improvements
+
+1. **Sass Modules**:
+   - Added additional Sass built-in modules like `map` and `math` to enable more sophisticated operations
+   - Rationale: Provides more powerful tools for manipulating and calculating values
+
+2. **Configuration System**:
+   - Created a dedicated `_config.scss` file with default settings that can be overridden
+   - Rationale: Allows developers to customize the framework without modifying the source files, making updates easier
+
+3. **@forward Instead of @use**:
+   - Changed from `@use` to `@forward` for partials
+   - Rationale: Makes all the members of the partials available when importing framework.scss, keeping the DRY principle
+
+4. **Map Merging for Customization**:
+   - Implemented map.merge to combine default values with custom configurations
+   - Rationale: Provides an elegant way to override only specific values while keeping the rest of the defaults
+
+5. **Additional Functional Modules**:
+   - Added new modules for reset, utilities, print styles, accessibility, and dark mode
+   - Rationale:
+     - `_reset.scss`: Ensures consistent rendering across different browsers
+     - `_utilities.scss`: Provides common helper classes to reduce repetitive CSS
+     - `_print.scss`: Optimizes layouts for printing
+     - `_accessibility.scss`: Improves user experience for people with disabilities
+     - `_dark-mode.scss`: Supports modern dark/light theme preferences
+
+6. **Feature Toggles**:
+   - Added conditional compilation with `@if` statements
+   - Rationale: Allows developers to opt out of features they don't need, reducing CSS bloat
+
+### Example Config File Structure
+
+```scss
+// _config.scss - Configuration file for Flexssentials
+
+// Feature toggles
+$enable-reset: true !default;
+$enable-utilities: true !default;
+$enable-print-styles: true !default;
+$enable-dark-mode: true !default;
+
+// Default values
+$theme-colors-default: (
+  primary: #55B785,
+  secondary: #808181,
+  success: #30DF3E,
+  alert: #DF3030,
+  warning: #FB8609,
+  black: #000000,
+  white: #FFFFFF
+);
+
+// Custom overrides (empty by default, to be customized by users)
+$theme-colors-custom: () !default;
+
+// Similar patterns for other variable maps
+$spacing-sizes-default: (
+  none: 0,
+  xs: 0.25rem,
+  sm: 0.5rem,
+  md: 1rem,
+  lg: 1.5rem,
+  xl: 2rem,
+  xxl: 3rem
+);
+$spacing-sizes-custom: () !default;
+
+$breakpoints-default: (
+  'sm': 'screen and (min-width: 576px)',
+  'md': 'screen and (min-width: 768px)',
+  'lg': 'screen and (min-width: 992px)',
+  'xl': 'screen and (min-width: 1200px)'
+);
+$breakpoints-custom: () !default;
+
+$font-sizes-default: (
+  body: 1rem,
+  h1: 3rem,
+  h2: 2.5rem,
+  h3: 2rem,
+  h4: 1.75rem,
+  h5: 1.5rem, 
+  h6: 1.25rem
+);
+$font-sizes-custom: () !default;
+
+// ... other default and custom configuration maps
+```
+
+### How to Customize the Framework
+
+With this enhanced structure, developers can easily customize the framework by creating their own config file before importing framework.scss:
+
+```scss
+// custom-config.scss
+@use 'scss/config' with (
+  $theme-colors-custom: (
+    primary: #3E8ED0,
+    secondary: #64748B
+  ),
+  $enable-utilities: false
+);
+
+// main.scss
+@use 'custom-config';
+@use 'scss/framework' as *;
+
+// Your custom styles...
+```
+
+This provides a powerful, flexible system that maintains all the benefits of Flexssentials while allowing for extensive customization.
+
 
 
 

@@ -1,0 +1,67 @@
+/*
+ * _mixins.scss
+ * This file contains reusable patterns that can be included throughout the application
+ * Mixins allow for generating styles with different parameter values
+ */
+@use 'variables';
+@use 'functions';
+
+/*
+ * Flexbox Mixin
+ * Creates a flexbox container with customizable properties
+ * Simplifies the application of complex flexbox layouts
+ * 
+ * @param $direction - Controls the direction of flex items (row, column, etc.)
+ * @param $justify - Horizontal alignment of items within the container
+ * @param $items - Vertical alignment of items within the container
+ * @param $content - Alignment of multiple lines of items
+ * @param $wrap - Whether items should wrap to new lines
+ * @param $gap - Space between flex items (uses spacing values)
+ */
+@mixin flexbox($direction: row, $justify: flex-start, $items: stretch, $content: normal, $wrap: nowrap, $gap: null) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $items;
+  align-content: $content;
+  flex-wrap: $wrap;
+  @if $gap != null { gap: $gap; }
+}
+
+/*
+ * Typography Styles Mixin
+ * Applies consistent text styling throughout the application
+ * Excludes font-size which is handled separately for more flexibility
+ * 
+ * @param $weight - Font weight (normal, bold, or numeric values like 400, 700)
+ * @param $style - Font style (normal, italic)
+ * @param $transform - Text transformation (none, uppercase, lowercase, capitalize)
+ */
+@mixin font-styles($weight: normal, $style: normal, $transform: none) {
+  font-weight: $weight;
+  font-style: $style;
+  text-transform: $transform;
+}
+
+/*
+ * Responsive Breakpoint Mixin
+ * Creates media queries for different screen sizes
+ * Uses the breakpoints defined in variables.scss
+ * 
+ * @param $breakpoint - Key from the $breakpoints map (xs, sm, md, lg, xl, xxl)
+ * @content - Styles to apply at the specified breakpoint
+ * 
+ * Example usage:
+ * @include responsive(md) {
+ *   width: 50%;
+ * }
+ */
+@mixin responsive($breakpoint) {
+  @if map-has-key(variables.$breakpoints, $breakpoint) {
+    @media #{map-get(variables.$breakpoints, $breakpoint)} {
+      @content;
+    }
+  } @else {
+    @warn "Invalid breakpoint: #{$breakpoint}. Available breakpoints: #{map-keys(variables.$breakpoints)}";
+  }
+}

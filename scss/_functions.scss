@@ -1,0 +1,208 @@
+/*
+ * _functions.scss
+ * This file contains all utility functions for the framework
+ * Functions calculate and return values without generating CSS directly
+ */
+@use 'sass:map';
+@use 'sass:math';
+@use 'sass:color';
+
+/*
+ * Theme Color Function
+ * Gets a theme color and optionally adjusts its lightness
+ * 
+ * @param $color-name - Name of the color from the theme colors map
+ * @param $percentage - Amount to lighten (positive %) or darken (negative %)
+ * @return - The original or adjusted color
+ * 
+ * Usage examples:
+ *   theme-color(primary)        // Returns the primary color as is
+ *   theme-color(primary, 20%)   // Returns the primary color lightened by 20%
+ *   theme-color(primary, -30%)  // Returns the primary color darkened by 30%
+ */
+@function theme-color($color-name, $percentage: null) {
+  $color: map-get($theme-colors, $color-name);
+  @if type-of($color) != 'color' {
+    @warn "Invalid color: #{$color}";
+    @return null;
+  }
+
+  // Return the original color if no adjustment needed
+  @if $percentage == null or $percentage == 0% {
+    @return $color;
+  }
+
+  // Apply lightening or darkening based on percentage sign
+  @if $percentage > 0% {
+    @return lighten($color, $percentage);
+  } @else {
+    @return darken($color, abs($percentage));
+  }
+}
+
+/*
+ * Color Adjustment Function with Desaturation
+ * Enhanced version of theme-color that also supports desaturation
+ * 
+ * @param $color-name - Name of the color from the theme colors map
+ * @param $percentage - Amount to lighten (positive %) or darken (negative %)
+ * @param $desaturate - Whether to completely desaturate the color (create grayscale)
+ * @return - The modified color value
+ */
+@function adjust-color($color-name, $percentage: null, $desaturate: false) {
+  $color: map-get($theme-colors, $color-name);
+  @if type-of($color) != 'color' {
+    @warn "Invalid color: #{$color}";
+    @return null;
+  }
+
+  @if $desaturate == true {
+    @return desaturate($color, 100%); // Convert to grayscale
+  }
+
+  @if $percentage == null or $percentage == 0% {
+    @return $color; // Return original if no adjustment needed
+  }
+
+  @if $percentage > 0% {
+    @return lighten($color, $percentage); // Lighten the color
+  } @else {
+    @return darken($color, abs($percentage)); // Darken the color (abs converts negative to positive)
+  }
+}
+
+/*
+ * Generate Theme Color Variants Function
+ * Creates light, dark, and muted variations of each base color
+ * This expands the color palette for more design flexibility
+ * 
+ * @param $base-colors - Map of base colors to generate variants from
+ * @return - Map containing all the color variants
+ */
+@function generate-theme-color-variants($base-colors) {
+  $variants: ();
+  @each $name, $color in $base-colors {
+    $variants: map-merge($variants, (
+      #{$name}-light: theme-color($name, 15%),    // Lighter version for backgrounds, hover states
+      #{$name}-dark: theme-color($name, -30%),    // Darker version for active states, emphasis
+      #{$name}-muted: adjust-color($name, null, true) // Desaturated version for subtle UI elements
+    ));
+  }
+  @return $variants;
+}
+
+/*
+ * Grid Column Function
+ * Retrieves a column width from the column sizes map
+ * 
+ * @param $size - Column identifier (e.g., col-6 for half width)
+ * @return - Percentage width for the specified column
+ */
+@function columns($size) {
+  @if map-has-key($column-sizes, $size) {
+    @return map-get($column-sizes, $size);
+  } @else {
+    @warn "Invalid grid size: #{$size}. Available sizes: #{map-keys($column-sizes)}";
+    @return null;
+  }
+}
+
+/*
+ * Generate Columns Function
+ * Creates a map of column width percentages based on a 12-column grid
+ * 
+ * @param $total-columns - Number of columns in the grid system (typically 12)
+ * @return - Map with column width percentages
+ */
+@function generate-columns($total-columns) {
+  $columns: ();
+  @for $i from 1 through $total-columns {
+    $columns: map-merge($columns, (col-#{$i}: calc(100% * #{$i} / $total-columns)));
+  }
+  @return $columns;
+}
+
+/*
+ * Utility Size Function
+ * Retrieves container width from the utility sizes map
+ * 
+ * @param $size - Size identifier (e.g., size-3 from the utility sizes map)
+ * @return - The width value for the specified size
+ */
+@function container($size) {
+  @if map-has-key($utility-sizes, $size) {
+    @return map-get($utility-sizes, $size);
+  } @else {
+    @warn "Invalid utility size: #{$size}. Available sizes: #{map-keys($utility-sizes)}";
+    @return null;
+  }
+}
+
+/*
+ * Generate Utility Sizes Function
+ * Creates a map of percentage-based utility widths
+ * 
+ * @param $base - Base value to start from
+ * @param $steps - Number of increments to generate
+ * @param $increment - Value to add for each step
+ * @return - Map with utility width percentages
+ */
+@function generate-utility-sizes($base, $steps, $increment) {
+  $sizes: (none: 0);
+  @for $i from 1 through $steps {
+    $size: $base * $i * $increment; // Calculate percentage value
+    $sizes: map-merge($sizes, (size-#{$i}: #{$size}%));
+  }
+  @return $sizes;
+}
+
+/*
+ * Spacing Function
+ * Retrieves spacing value from the spacing sizes map
+ * 
+ * @param $size - Size identifier (e.g., spacing-3 from the spacing sizes map)
+ * @return - The spacing value for the specified size
+ */
+@function spacing($size) {
+  @if map-has-key($spacing-sizes, $size) {
+    @return map-get($spacing-sizes, $size);
+  } @else {
+    @warn "Invalid spacing size: #{$size}. Available sizes: #{map-keys($spacing-sizes)}";
+    @return null;
+  }
+}
+
+/*
+ * Generate Spacing Sizes Function
+ * Creates a map of spacing values based on a scale
+ * Uses exponential progression for a more natural sizing scale
+ * 
+ * @param $base - Base unit for spacing (typically 0.25rem)
+ * @param $scale - Growth factor for exponential progression
+ * @param $steps - Number of steps to generate
+ * @return - Map with spacing values
+ */
+@function generate-spacing-sizes($base, $scale, $steps) {
+  $sizes: (none: 0);
+  @for $i from 1 through $steps {
+    $size: $base * math.pow($scale, $i - 1);
+    $sizes: map-merge($sizes, (spacing-#{$i}: $size));
+  }
+  @return $sizes;
+}
+
+/*
+ * Line Height Function
+ * Retrieves line height value from the line heights map
+ * 
+ * @param $size - Line height identifier (e.g., normal, small, large)
+ * @return - The line height value for the specified size
+ */
+@function line-height($size) {
+  @if map-has-key($line-heights, $size) {
+    @return map-get($line-heights, $size);
+  } @else {
+    @warn "Invalid line-height size: #{$size}. Available sizes: #{map-keys($line-heights)}";
+    @return null;
+  }
+}
