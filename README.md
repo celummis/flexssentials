@@ -1,69 +1,99 @@
 # Flexssentials: A Minimalist and Flexible SCSS Framework
 
-**Flexssentials** is a modern, minimalist, and flexible SCSS framework designed to streamline your web development process. Whether you're working on a personal project or a large-scale application, Flexssentials provides a robust foundation that emphasizes simplicity, modularity, and scalability.
+**Flexssentials** is a modern, minimalist, and flexible SCSS framework designed to streamline your web development process. It offers a simple and lightweight approach to styling essentials: colors, layout, typography, and spacing.
 
 ---
 
 ## **Key Features**
-- **Modular and Scalable**: Use only what you need—perfect for projects of any size.
-- **Focused on Essentials**: A clean and concise framework that prioritizes flexibility without overwhelming complexity.
-- **Responsive Design Ready**: Effortlessly create responsive layouts with built-in tools.
-- **Customizable**: Tailor the framework to meet your project’s specific requirements.
-- **Comprehensive Documentation**: Detailed guidance on variables, functions, and mixins for quick and effective integration.
+
+- **Single-File Structure**: Everything you need in one clean, well-organized SCSS file.
+- **DRY (Don't Repeat Yourself)**: SCSS maps automatically generate CSS variables.
+- **Framework Agnostic**: Works perfectly with Angular, React, Vue, or any web project.
+- **Powerful Yet Simple**: Provides core functionality without bloat.
+- **Runtime Flexibility**: Uses CSS variables for dynamic theming capabilities.
 
 ---
 
 ## **What's Included**
-- **Variables**: Predefined variables for:
+
+- **SCSS Maps**: Single source of truth for:
+  - Colors
   - Grid columns
-  - Utility sizes
-  - Theme colors
-  - Typography
   - Spacing
+  - Utility sizes
+  - Font sizes
   - Breakpoints
-- **Functions**: Handy utilities for retrieving and manipulating variables, ensuring consistent styling.
-- **Mixins**: Reusable code blocks for:
+
+- **CSS Variables**: Auto-generated from SCSS maps, allowing runtime customization.
+
+- **Core Functions**: Simple utilities for:
+  - Accessing CSS variables
+  - Manipulating colors
+  - Working with spacing
+  - Responsive breakpoints
+
+- **Essential Mixins**:
   - Flexbox layouts
   - Typography
-  - Spacing
+  - Margin and padding
   - Responsive design
-- **Best Practices Structure**: Encourages maintainable and scalable CSS development.
 
 ---
 
 ## **Getting Started**
 
-### 1. **Clone the Repository**
-Clone this repository to your local machine:
-```bash
-git clone https://github.com/your-username/Flexssentials.git
-```
+### 1. **Include in Your Project**
 
-### 2. **Include in Your Project**
-Import the SCSS files into your project:
+Simply copy the `framework.scss` file into your project's SCSS directory.
+
+### 2. **Import and Use**
+
+Import the framework in your main SCSS file:
 ```scss
-@import 'path-to-flexssentials/flexssentials';
+@use 'sass:color';
+@use 'scss/framework.scss' as *;
 ```
 
-### 3. **Explore the Documentation**
-Refer to the comprehensive documentation in the `docs/` folder for detailed usage instructions and examples.
+### 3. **Start Using the Mixins and Functions**
+
+```scss
+.container {
+  @include padding(md);
+  background-color: color(primary);
+  
+  @include responsive(md) {
+    width: container(w-80);
+  }
+}
+
+.button {
+  @include flexbox(row, center, center);
+  background-color: color-value(primary, -10%);
+  color: color(white);
+}
+```
 
 ---
 
-## **Contributing**
-Contributions are welcome! If you have ideas for improvements or find any issues, feel free to:
-1. Fork the repository.
-2. Create a new branch for your feature or fix.
-3. Submit a pull request for review.
+## **Documentation**
+
+Refer to the `documentation.md` file for detailed usage instructions, examples, and a complete API reference.
+
+---
+
+## **Why Flexssentials?**
+
+Flexssentials strikes the perfect balance between utility and simplicity:
+
+- **No CSS Bloat**: Only generates what you actually use in your stylesheets.
+- **No Learning Curve**: Intuitive functions and mixins with clear naming.
+- **Flexible Architecture**: Adapt it to any design system or project requirements.
+- **Modern Best Practices**: Built on current SCSS best practices and patterns.
 
 ---
 
 ## **License**
+
 Flexssentials is licensed under the [MIT License](LICENSE). Feel free to use it in your projects.
-
----
-
-### **Stay Connected**
-Have questions or suggestions? Connect with us through GitHub Issues or submit a feature request.
 
 ---

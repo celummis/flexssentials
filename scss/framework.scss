@@ -1,7 +1,6 @@
 /* 
  * Flexssentials SCSS Framework
- * A comprehensive approach to styling essentials: layout, colors, typography, and spacing
- * This file serves as the main entry point that integrates all framework components
+ * A simple and lightweight approach to styling essentials: colors, layout, and spacing
  */
 
 // Import Sass modules
@@ -9,107 +8,132 @@
 @use 'sass:color';
 @use 'sass:math';
 
-// Import configuration with defaults
-@use 'config' as config;
-
-/* 
- * Import the reset stylesheet for consistent cross-browser rendering
- * This can be disabled in the config if not needed
- */
+// Import reset stylesheet (can be removed if not needed)
 @use 'reset';
 
-// Forward all partials to make them available when importing framework.scss
-@forward 'variables';
-@forward 'functions';
-@forward 'mixins';
+// SCSS Maps - Single source of truth for all variables
+// These are used internally for calculations and modifications
+
+// Colors
+$colors: (
+  primary: #55B785,
+  secondary: #808181,
+  info: #0099FF,
+  success: #30DF3E,
+  warning: #FB8609,
+  danger: #DF3030,
+  text: #121212,
+  white: #FFFFFF,
+  black: #000000
+);
+
+// Grid columns
+$columns: (
+  col-12: 100%,
+  col-11: 91.6666666667%,
+  col-10: 83.3333333333%,
+  col-9: 75%,
+  col-8: 66.6666666667%,
+  col-7: 58.3333333333%,
+  col-6: 50%,
+  col-5: 41.6666666667%,
+  col-4: 33.3333333333%,
+  col-3: 25%,
+  col-2: 16.6666666667%,
+  col-1: 8.3333333333%
+);
+
+// Spacing
+$spacing: (
+  none: 0,
+  xs: 0.25rem,
+  sm: 0.5rem,
+  md: 1rem,
+  lg: 1.5rem,
+  xl: 2rem,
+  xxl: 3rem
+);
+
+// Utility sizes
+$sizes: (
+  w-100: 100%,
+  w-95: 95%,
+  w-90: 90%,
+  w-85: 85%,
+  w-80: 80%,
+  w-75: 75%,
+  w-70: 70%,
+  w-65: 65%,
+  w-60: 60%,
+  w-55: 55%,
+  w-50: 50%,
+  w-45: 45%,
+  w-40: 40%,
+  w-35: 35%,
+  w-30: 30%,
+  w-25: 25%,
+  w-20: 20%,
+  w-15: 15%,
+  w-10: 10%
+);
+
+// Font sizes
+$font-sizes: (
+  footnote: 0.75rem,
+  table: 0.85rem,
+  label: 0.9rem,
+  body: 1rem,
+  h1: 3rem,
+  h2: 2.5rem,
+  h3: 2rem,
+  h4: 1.75rem,
+  h5: 1.5rem,
+  h6: 1.25rem
+);
+
+// Breakpoints
+$breakpoints: (
+  xs: 576px,
+  sm: 768px,
+  md: 992px,
+  lg: 1200px,
+  xl: 1400px
+);
 
 /*
  * CSS Variables
  * Define CSS custom properties for runtime theme customization
  * These can be modified at runtime with JavaScript for dynamic theming
  */
-@if config.$enable-css-variables {
-  :root {
-    // Generate color variables from the theme colors
-    @each $name, $value in config.$theme-colors-default {
-      --#{$name}: #{$value};
-    }
+:root {
+  // Theme Colors (automatically generated from $colors map)
+  @each $name, $value in $colors {
+    --#{$name}: #{$value};
+  }
 
-    // Grid Columns
-    --col-12: 100%;
-    --col-11: 91.6666666667%;
-    --col-10: 83.3333333333%;
-    --col-9: 75%;
-    --col-8: 66.6666666667%;
-    --col-7: 58.3333333333%;
-    --col-6: 50%;
-    --col-5: 41.6666666667%;
-    --col-4: 33.3333333333%;
-    --col-3: 25%;
-    --col-2: 16.6666666667%;
-    --col-1: 8.3333333333%;
+  // Grid Columns (automatically generated from $columns map)
+  @each $name, $value in $columns {
+    --#{$name}: #{$value};
+  }
 
-    // Spacing
-    --none: 0;
-    --xs: 0.25rem;
-    --sm: 0.5rem;
-    --md: 1rem;
-    --lg: 1.5rem;
-    --xl: 2rem;
-    --xxl: 3rem;
+  // Spacing (automatically generated from $spacing map)
+  @each $name, $value in $spacing {
+    --#{$name}: #{$value};
+  }
+  
+  // Utility Sizes (automatically generated from $sizes map)
+  @each $name, $value in $sizes {
+    --#{$name}: #{$value};
+  }
 
-    // Utility Sizes
-    --w-100: 100%;
-    --w-95: 95%;
-    --w-90: 90%;
-    --w-85: 85%;
-    --w-80: 80%;
-    --w-75: 75%;
-    --w-70: 70%;
-    --w-65: 65%;
-    --w-60: 60%;
-    --w-55: 55%;
-    --w-50: 50%;
-    --w-45: 45%;
-    --w-40: 40%;
-    --w-35: 35%;
-    --w-30: 30%;
-    --w-25: 25%;
-    --w-20: 20%;
-    --w-15: 15%;
-    --w-10: 10%;
+  // Font sizes (automatically generated from $font-sizes map)
+  @each $name, $value in $font-sizes {
+    --#{$name}: #{$value};
+  }
 
-    // Font sizes
-    --footnote: 0.75rem;
-    --table: 0.85rem;
-    --label: 0.9rem;
-    --body: 1rem;
-    --h1: 3rem;
-    --h2: 2.5rem;
-    --h3: 2rem;
-    --h4: 1.75rem;
-    --h5: 1.5rem;
-    --h6: 1.25rem;
-
-    // Font styles
-    --normal: normal;
-    --bold: bold;
-    --italic: italic;
-    --uppercase: uppercase;
-    --lowercase: lowercase;
-    --capitalize: capitalize;
-
-    // Line heights
-    --lh-normal: 1.5;
-    --lh-small: 1.25;
-    --lh-large: 2;
-
-    // Breakpoints
-    --break-xs: 576px;
-    --break-sm: 768px;
-    --break-md: 992px;
-    --break-lg: 1200px;
-    --break-xl: 1400px;
+  // Breakpoints (automatically generated from $breakpoints map)
+  @each $name, $value in $breakpoints {
+    --break-#{$name}: #{$value};
   }
 }
 
@@ -120,20 +144,20 @@
 
 /**
  * Retrieve grid column width
- * @param {number} $size - Column size (1-12)
+ * @param {string} $col - Column size key (col-1 through col-12)
  * @return {string} CSS variable for column width
  */
-@function column($size) {
-  @return var(--col-#{$size});
+@function column($col) {
+  @return var(--#{$col});
 }
 
 /**
  * Retrieve utility container size
- * @param {number} $size - Container width percentage (10-100)
- * @return {string} CSS variable for container width
+ * @param {string} $size - Size key (w-10 through w-100)
+ * @return {string} CSS variable for width
  */
 @function container($size) {
-  @return var(--w-#{$size});
+  @return var(--#{$size});
 }
 
 /**
@@ -146,7 +170,7 @@
 }
 
 /**
- * Retrieve theme color
+ * Retrieve theme color as CSS variable
  * @param {string} $color-name - Color name (primary, secondary, etc.)
  * @return {string} CSS variable for color
  */
@@ -155,20 +179,22 @@
 }
 
 /**
- * Get or modify a theme color
- * Avoids naming conflict with Sass built-in scale-color function
+ * Get or modify a theme color from SCSS color map
  * 
- * @param {string} $color-name - Color name from the theme colors map
+ * @param {string} $color-name - Color name from the colors map
  * @param {number} $percentage - Optional percentage to lighten/darken
  * @return {color} The original or modified color
+ * 
+ * Usage examples:
+ *   color-value(primary)        // Returns the primary color as is
+ *   color-value(primary, 20%)   // Returns the primary color lightened by 20%
+ *   color-value(primary, -30%)  // Returns the primary color darkened by 30%
  */
-@function theme-color($color-name, $percentage: null) {
-  // Merge custom colors with default colors
-  $theme-colors: map.merge(config.$theme-colors-default, config.$theme-colors-custom);
-  $base-color: map.get($theme-colors, $color-name);
+@function color-value($color-name, $percentage: null) {
+  $base-color: map.get($colors, $color-name);
 
   @if $base-color == null {
-    @warn "Color '#{$color-name}' not found in the theme colors map.";
+    @warn "Color '#{$color-name}' not found in the colors map.";
     @return null;
   }
 
@@ -192,24 +218,6 @@
  */
 @function font-size($size) {
   @return var(--#{$size});
-}
-
-/**
- * Retrieve font style
- * @param {string} $type - Style type (normal, bold, italic, etc.)
- * @return {string} CSS variable for font style
- */
-@function font-style($type) {
-  @return var(--#{$type});
-}
-
-/**
- * Retrieve line height
- * @param {string} $size - Line height key (normal, small, large)
- * @return {string} CSS variable for line height
- */
-@function line-height($size) {
-  @return var(--lh-#{$size});
 }
 
 /**
@@ -257,19 +265,15 @@
   font-weight: $weight;
   font-style: $style;
   text-transform: $transform;
-  line-height: line-height('normal');
 }
 
 /**
  * Apply responsive styles based on breakpoint
- * @param {string} $breakpoint - Breakpoint key from config.$breakpoints-default map
+ * @param {string} $breakpoint - Breakpoint key (xs, sm, md, lg, xl)
  */
 @mixin responsive($breakpoint) {
-  // Merge custom breakpoints with default breakpoints
-  $breakpoints: map.merge(config.$breakpoints-default, config.$breakpoints-custom);
-  
-  @if map-has-key($breakpoints, $breakpoint) {
-    @media #{map-get($breakpoints, $breakpoint)} {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media (min-width: map.get($breakpoints, $breakpoint)) {
       @content;
     }
   } @else {
@@ -314,108 +318,3 @@
   @include spacing(padding, $top, $right, $bottom, $left);
 }
 
-/*
- * Print Styles
- * Optimizes the layout for printing
- */
-@if config.$enable-print-styles {
-  @media print {
-    // Hide navigation, buttons, ads, etc.
-    nav, button, .ad, .no-print {
-      display: none !important;
-    }
-    
-    // Ensure text is black for better print quality
-    body {
-      color: #000;
-      background: #fff;
-    }
-    
-    // Ensure links show their URL
-    a[href]:after {
-      content: " (" attr(href) ")";
-    }
-    
-    // Break inside avoidance
-    h1, h2, h3, h4, h5, h6, img {
-      page-break-after: avoid;
-      page-break-inside: avoid;
-    }
-    
-    // Print background colors and images
-    * {
-      -webkit-print-color-adjust: exact !important;
-      color-adjust: exact !important;
-    }
-  }
-}
-
-/*
- * Base utility classes generation
- * Creates common utility classes for flexbox, spacing, etc.
- */
-@if config.$enable-responsive-utilities {
-  // Flexbox utilities
-  .d-flex { display: flex; }
-  .flex-row { flex-direction: row; }
-  .flex-column { flex-direction: column; }
-  .justify-content-start { justify-content: flex-start; }
-  .justify-content-center { justify-content: center; }
-  .justify-content-end { justify-content: flex-end; }
-  .justify-content-between { justify-content: space-between; }
-  .justify-content-around { justify-content: space-around; }
-  .align-items-start { align-items: flex-start; }
-  .align-items-center { align-items: center; }
-  .align-items-end { align-items: flex-end; }
-  .flex-wrap { flex-wrap: wrap; }
-  .flex-nowrap { flex-wrap: nowrap; }
-  
-  // Spacing utilities
-  @each $name, $value in config.$spacing-utilities {
-    .m-#{$name} { margin: spacing($value); }
-    .mx-#{$name} { 
-      margin-left: spacing($value); 
-      margin-right: spacing($value);
-    }
-    .my-#{$name} { 
-      margin-top: spacing($value); 
-      margin-bottom: spacing($value);
-    }
-    .mt-#{$name} { margin-top: spacing($value); }
-    .mr-#{$name} { margin-right: spacing($value); }
-    .mb-#{$name} { margin-bottom: spacing($value); }
-    .ml-#{$name} { margin-left: spacing($value); }
-    
-    .p-#{$name} { padding: spacing($value); }
-    .px-#{$name} { 
-      padding-left: spacing($value); 
-      padding-right: spacing($value);
-    }
-    .py-#{$name} { 
-      padding-top: spacing($value); 
-      padding-bottom: spacing($value);
-    }
-    .pt-#{$name} { padding-top: spacing($value); }
-    .pr-#{$name} { padding-right: spacing($value); }
-    .pb-#{$name} { padding-bottom: spacing($value); }
-    .pl-#{$name} { padding-left: spacing($value); }
-  }
-}
-
-// Dark mode support (initial implementation)
-@if config.$enable-dark-mode {
-  @media (prefers-color-scheme: dark) {
-    :root {
-      @each $name, $value in config.$dark-mode-colors {
-        --#{$name}: #{$value};
-      }
-    }
-  }
-}
-
-/*
- * Future Enhancements To Consider:
- * 1. Add accessibility utilities for focus styles, screenreader-only content
- * 2. Expand dark mode support with more comprehensive styling
- * 3. Add more utility generators for common CSS patterns
- */
