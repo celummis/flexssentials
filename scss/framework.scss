@@ -205,9 +205,9 @@ $breakpoints: (
 
   // Apply lightening or darkening based on percentage sign
   @if $percentage > 0% {
-    @return lighten($base-color, $percentage);
+    @return color.lighten($base-color, $percentage);
   } @else {
-    @return darken($base-color, abs($percentage));
+    @return color.darken($base-color, math.abs($percentage));
   }
 }
 
