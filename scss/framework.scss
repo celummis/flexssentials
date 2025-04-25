@@ -215,7 +215,7 @@ $breakpoints: (
  * @param {string} $size - Font size key (body, h1-h6, etc.)
  * @return {string} CSS variable for font size
  */
-@function font-size($size) {
+@function font($size) {
   @return var(--#{$size});
 }
 
