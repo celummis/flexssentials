@@ -57,8 +57,7 @@ Flexssentials uses SCSS maps as the single source of truth for all variables, wh
      warning: #FB8609,
      danger: #DF3030,
      text: #121212,
-     white: #FFFFFF,
-     black: #000000
+     grayscale: #000000
    );
    ```
 
@@ -109,15 +108,15 @@ Flexssentials uses SCSS maps as the single source of truth for all variables, wh
    ```scss
    $font-sizes: (
      footnote: 0.75rem,
-     table: 0.85rem,
+     caption: 0.85rem,
      label: 0.9rem,
      body: 1rem,
-     h1: 3rem,
-     h2: 2.5rem,
-     h3: 2rem,
-     h4: 1.75rem,
-     h5: 1.5rem,
-     h6: 1.25rem
+     heading-6: 1.25rem,
+     heading-5: 1.5rem,
+     heading-4: 1.75rem,
+     heading-3: 2rem,
+     heading-2: 2.5rem,
+     heading-1: 3rem
    );
    ```
 
@@ -179,7 +178,7 @@ All SCSS maps are automatically converted to CSS variables using `@each` loops:
 
 6. `font-size($size)`:
    * Returns a CSS variable for font size
-   * Example: `font-size(h1)` → `var(--h1)` (3rem)
+   * Example: `font-size(heading-1)` → `var(--heading-1)` (3rem)
 
 7. `breakpoint($size)`:
    * Returns a CSS variable for breakpoint
@@ -238,14 +237,14 @@ All SCSS maps are automatically converted to CSS variables using `@each` loops:
 ```scss
 .card {
   @include padding(md);
-  background-color: color(white);
+  background-color: color-value(grayscale, 100%);
   border-radius: spacing(xs);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   
   &__header {
     @include margin(none, none, sm, none);
     color: color(primary);
-    font-size: font-size(h5);
+    font-size: font-size(heading-5);
   }
   
   &__body {
@@ -276,7 +275,7 @@ All SCSS maps are automatically converted to CSS variables using `@each` loops:
 .button {
   @include padding(sm, md);
   background-color: color(primary);
-  color: color(white);
+  color: color-value(grayscale, 100%);
   border: none;
   border-radius: spacing(xs);
   cursor: pointer;
@@ -301,7 +300,7 @@ All SCSS maps are automatically converted to CSS variables using `@each` loops:
   
   &--large {
     @include padding(md, lg);
-    font-size: font-size(h6);
+    font-size: font-size(heading-6);
   }
 }
 ```

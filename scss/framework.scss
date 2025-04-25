@@ -23,8 +23,7 @@ $colors: (
   warning: #FB8609,
   danger: #DF3030,
   text: #121212,
-  white: #FFFFFF,
-  black: #000000
+  grayscale: #000000
 );
 
 // Grid columns
@@ -80,15 +79,15 @@ $sizes: (
 // Font sizes
 $font-sizes: (
   footnote: 0.75rem,
-  table: 0.85rem,
+  caption: 0.85rem,
   label: 0.9rem,
   body: 1rem,
-  h1: 3rem,
-  h2: 2.5rem,
-  h3: 2rem,
-  h4: 1.75rem,
-  h5: 1.5rem,
-  h6: 1.25rem
+  heading-6: 1.25rem,
+  heading-5: 1.5rem, 
+  heading-4: 1.75rem,
+  heading-3: 2rem,
+  heading-2: 2.5rem,
+  heading-1: 3rem
 );
 
 // Breakpoints

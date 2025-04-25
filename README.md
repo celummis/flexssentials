@@ -69,7 +69,7 @@ Import the framework in your main SCSS file:
 .button {
   @include flexbox(row, center, center);
   background-color: color-value(primary, -10%);
-  color: color(white);
+  color: color-value(grayscale, 100%);
 }
 ```
 
